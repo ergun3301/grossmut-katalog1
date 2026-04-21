@@ -14,7 +14,6 @@
       background: #eceff1;
     }
 
-    /* LOGIN */
     #login {
       position: fixed;
       inset: 0;
@@ -51,7 +50,6 @@
       cursor: pointer;
     }
 
-    /* SETTINGS */
     #ayarBtn {
       position: fixed;
       top: 10px;
@@ -98,8 +96,9 @@
 
     .btnGri { background: #666; color: #fff; }
     .btnYesil { background: green; color: #fff; }
+    .btnTuruncu { background: orange; color: #fff; }
+    .btnKirmizi { background: #c62828; color: #fff; }
 
-    /* TOP PANEL */
     .panel {
       background: #fff;
       padding: 10px;
@@ -127,10 +126,6 @@
       cursor: pointer;
     }
 
-    .btnTuruncu { background: orange; color: #fff; }
-    .btnKirmizi { background: #c62828; color: #fff; }
-
-    /* A4 PAGE */
     #afis {
       width: 794px;
       height: 1123px;
@@ -141,7 +136,6 @@
       box-shadow: 0 6px 18px rgba(0,0,0,.12);
     }
 
-    /* HEADER */
     .header {
       display: grid;
       grid-template-columns: 1.55fr 0.75fr 0.50fr;
@@ -161,9 +155,9 @@
       text-shadow: 0 2px 0 rgba(0,0,0,0.05);
     }
 
-    .g1 { color: #16a34a; } /* GRO */
-    .g2 { color: #f5a300; } /* ilk S */
-    .g3 { color: #f5a300; } /* SMUT */
+    .g1 { color: #16a34a; }
+    .g2 { color: #f5a300; }
+    .g3 { color: #f5a300; }
 
     .altBaslik {
       margin-top: 8px;
@@ -174,18 +168,17 @@
       color: #111;
     }
 
-    /* TARIH */
     .tarihKutu {
       background: #49a63a;
       color: #fff;
       border-radius: 28px;
-      padding: 16px 18px;
-      text-align: center;
+      padding: 14px 16px;
       min-height: 126px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      text-align: center;
     }
 
     .tarihKutu .k1 {
@@ -197,10 +190,12 @@
     }
 
     .tarihSatir {
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
+      margin: 0 auto;
     }
 
     .tarihAyirici {
@@ -235,10 +230,12 @@
       color: #111;
       background: #fff;
       margin-top: 8px;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
       outline: none;
     }
 
-    /* QR */
     .qr {
       text-align: center;
       background: #fff;
@@ -273,7 +270,6 @@
       background: #1ca42f;
     }
 
-    /* GRID */
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -413,14 +409,12 @@
 </head>
 <body>
 
-  <!-- LOGIN -->
   <div id="login">
     <h2>Şifre Gir</h2>
     <input type="password" id="sifreInput" placeholder="Şifre">
     <button onclick="giris()">Giriş</button>
   </div>
 
-  <!-- SETTINGS -->
   <button id="ayarBtn" onclick="ayarAcKapat()">⚙️</button>
 
   <div id="ayarPanel">
@@ -431,7 +425,6 @@
     <button class="btnGri" onclick="window.print()">PDF</button>
   </div>
 
-  <!-- CONTROL PANEL -->
   <div class="panel">
     <input id="baslikInput" placeholder="Başlık" value="HAFTANIN YILDIZLARI">
     <button class="btnYesil" onclick="baslikGuncelle()">Güncelle</button>
@@ -448,25 +441,22 @@
     <button class="btnKirmizi" onclick="temizle()">Temizle</button>
   </div>
 
-  <!-- POSTER -->
   <div id="afis">
     <div class="header">
       <div>
         <div class="logoSatir">
-          <span class="g1">GRO</span><span class="g2">S</span><span class="g3">SMUT</span>
+          <span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g3">MUT</span>
         </div>
         <div class="altBaslik" id="afisBaslik">HAFTANIN YILDIZLARI</div>
       </div>
 
       <div class="tarihKutu">
         <div class="k1">GEÇERLİLİK TARİHİ</div>
-
         <div class="tarihSatir">
           <input class="tarihInputKucuk" id="basGun" type="number" value="21">
           <span class="tarihAyirici">-</span>
           <input class="tarihInputKucuk" id="bitGun" type="number" value="24">
         </div>
-
         <input class="tarihInputAy" id="ayInput" value="NİSAN">
       </div>
 
