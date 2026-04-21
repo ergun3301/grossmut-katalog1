@@ -1,434 +1,475 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grossmut Market Afişi</title>
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#eceff3;
-  color:#222;
-}
-#login{
-  position:fixed;
-  inset:0;
-  background:#111;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:9999;
-}
-#login h2{margin-bottom:12px}
-#login input{
-  padding:12px;
-  font-size:18px;
-  border:none;
-  border-radius:8px;
-  width:240px;
-  text-align:center;
-}
-#login button{
-  margin-top:10px;
-  padding:12px 18px;
-  border:none;
-  border-radius:8px;
-  background:green;
-  color:#fff;
-  font-size:16px;
-  font-weight:bold;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grossmut Market Afişi</title>
+  <style>
+    * { box-sizing: border-box; }
 
-.panel{
-  background:#fff;
-  padding:14px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  position:sticky;
-  top:0;
-  z-index:10;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-.panel input{
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:8px;
-  font-size:14px;
-}
-.panel button{
-  padding:10px 14px;
-  border:none;
-  border-radius:8px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.btn-yesil{background:green;color:#fff}
-.btn-turuncu{background:orange;color:#fff}
-.btn-gri{background:#666;color:#fff}
-.btn-kirmizi{background:#c62828;color:#fff}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eceff1;
+    }
 
-#afis{
-  max-width:1150px;
-  margin:18px auto;
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 8px 24px rgba(0,0,0,.10);
-}
-.ustAlan{
-  display:grid;
-  grid-template-columns:1.4fr .6fr .4fr;
-  gap:14px;
-  align-items:start;
-  padding:18px 18px 10px 18px;
-}
-.logoAlan{
-  padding-top:6px;
-}
-.logo{
-  font-size:64px;
-  font-weight:900;
-  line-height:.95;
-  letter-spacing:-1px;
-}
-.logo .gross{color:#119c1c}
-.logo .mut{color:#f5a300}
-.altBaslik{
-  margin-top:10px;
-  font-size:34px;
-  font-weight:900;
-  text-transform:uppercase;
-  line-height:1.05;
-}
-.tarihKutu{
-  background:#099b13;
-  color:#fff;
-  border-radius:22px;
-  padding:16px 18px;
-  text-align:center;
-  min-height:136px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.tarihKutu .ust{
-  font-size:20px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-.tarihKutu .deger{
-  font-size:42px;
-  font-weight:900;
-  line-height:1;
-}
-.qrKutu{
-  background:#fff;
-  border-radius:18px;
-  text-align:center;
-  padding:10px;
-  box-shadow:0 0 10px rgba(0,0,0,.08);
-}
-.qrKutu img{
-  width:100%;
-  max-width:150px;
-  border-radius:12px;
-  display:block;
-  margin:0 auto;
-}
-.qrKutu .kullanici{
-  font-weight:900;
-  margin-top:6px;
-  font-size:20px;
-}
-.qrKutu .yazi{
-  font-size:14px;
-  color:#555;
-}
+    #login {
+      position: fixed;
+      inset: 0;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
 
-.cizgi{
-  height:6px;
-  background:#1ea339;
-}
+    #login h2 {
+      margin: 0 0 12px;
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-}
-.kart{
-  border-right:1px solid #ddd;
-  border-bottom:1px solid #ddd;
-  min-height:395px;
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-}
-.kart:nth-child(3n){
-  border-right:none;
-}
-.resimAlan{
-  width:100%;
-  height:170px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:10px;
-  overflow:hidden;
-}
-.resimAlan img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-.urunAdi{
-  font-size:28px;
-  font-weight:900;
-  line-height:1.05;
-  min-height:58px;
-  text-transform:uppercase;
-}
-.urunAciklama{
-  font-size:14px;
-  color:#666;
-  min-height:34px;
-  margin-top:4px;
-  text-transform:uppercase;
-}
-.eskiFiyat{
-  margin-top:10px;
-  color:#b33;
-  text-decoration:line-through;
-  font-size:26px;
-  font-weight:700;
-  min-height:34px;
-}
-.yeniFiyat{
-  color:#129c28;
-  font-size:62px;
-  font-weight:900;
-  line-height:1;
-  min-height:68px;
-}
-.indirim{
-  margin-top:auto;
-  width:100%;
-  background:#d9a320;
-  color:#664500;
-  font-size:20px;
-  font-weight:900;
-  padding:8px 0;
-  text-transform:uppercase;
-}
-.altNot{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 14px 16px;
-  font-size:13px;
-  font-weight:700;
-  color:#555;
-}
-.altNot .site{
-  font-size:22px;
-  font-weight:900;
-  color:#222;
-}
+    #login input {
+      width: 240px;
+      padding: 12px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      text-align: center;
+    }
 
-@media (max-width:900px){
-  .ustAlan{
-    grid-template-columns:1fr;
-  }
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-  .kart:nth-child(3n){
-    border-right:1px solid #ddd;
-  }
-  .kart:nth-child(2n){
-    border-right:none;
-  }
-}
-@media (max-width:600px){
-  .logo{font-size:52px}
-  .altBaslik{font-size:28px}
-  .grid{grid-template-columns:1fr}
-  .kart{border-right:none!important}
-}
-@media print{
-  .panel{display:none!important}
-  body{background:#fff}
-  #afis{
-    margin:0;
-    box-shadow:none;
-    border-radius:0;
-  }
-}
-</style>
+    #login button {
+      margin-top: 10px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #0b8f1e;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .panel {
+      background: #fff;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+
+    .panel input {
+      padding: 9px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .panel button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btnYesil { background: #0b8f1e; color: #fff; }
+    .btnTuruncu { background: #f1a208; color: #fff; }
+    .btnGri { background: #666; color: #fff; }
+    .btnKirmizi { background: #c62828; color: #fff; }
+
+    /* A4 tek sayfa görünüm */
+    #afis {
+      width: 794px;
+      height: 1123px;
+      margin: 14px auto;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .ustAlan {
+      display: grid;
+      grid-template-columns: 1.45fr 0.65fr 0.55fr;
+      gap: 10px;
+      align-items: start;
+      padding: 16px 18px 10px 18px;
+    }
+
+    .logo {
+      line-height: .88;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+
+    .logoSatir {
+      font-size: 60px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .gross { color: #16a34a; }
+    .mut { color: #f5a300; }
+
+    .altBaslik {
+      margin-top: 8px;
+      font-size: 26px;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.05;
+    }
+
+    .tarihKutu {
+      background: #0c9b19;
+      color: #fff;
+      border-radius: 18px;
+      padding: 12px;
+      text-align: center;
+      min-height: 108px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tarihKutu .k1 {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .tarihKutu .k2 {
+      margin-top: 4px;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .qrKutu {
+      background: #fff;
+      border-radius: 16px;
+      padding: 8px;
+      text-align: center;
+      box-shadow: 0 0 8px rgba(0,0,0,.08);
+    }
+
+    .qrKutu img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 12px;
+    }
+
+    .qrKutu .kullanici {
+      font-size: 18px;
+      font-weight: 900;
+      margin-top: 5px;
+    }
+
+    .qrKutu .takip {
+      font-size: 12px;
+      color: #555;
+    }
+
+    .cizgi {
+      height: 5px;
+      background: #17a42a;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      height: 920px;
+    }
+
+    .kart {
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      padding: 8px 8px 6px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .kart:nth-child(3n) {
+      border-right: none;
+    }
+
+    .resimAlan {
+      width: 100%;
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      overflow: hidden;
+    }
+
+    .resimAlan img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .urunAdi {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.02;
+      min-height: 42px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .aciklama {
+      font-size: 11px;
+      color: #666;
+      line-height: 1.1;
+      min-height: 26px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .eskiFiyat {
+      margin-top: 6px;
+      min-height: 24px;
+      color: #b22222;
+      text-decoration: line-through;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .yeniFiyat {
+      min-height: 52px;
+      color: #17b12a;
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .indirim {
+      margin-top: auto;
+      width: 100%;
+      background: #d4a017;
+      color: #6a4a00;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 7px 0;
+      text-transform: uppercase;
+    }
+
+    .altNot {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      background: #fff;
+    }
+
+    .site {
+      font-size: 20px;
+      font-weight: 900;
+      color: #222;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .panel {
+        display: none !important;
+      }
+
+      #afis {
+        margin: 0;
+        box-shadow: none;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div id="login">
-  <h2>Şifre Gir</h2>
-  <input type="password" id="sifreInput" placeholder="Şifre">
-  <button onclick="girisYap()">Giriş</button>
-</div>
-
-<div id="siteIcerik" style="display:none;">
-
-  <div class="panel">
-    <input id="baslikInput" placeholder="Başlık" value="HAFTANIN YILDIZLARI">
-    <input id="tarihInput" placeholder="Tarih" value="16-23 NİSAN">
-    <button class="btn-yesil" onclick="afisGuncelle()">Güncelle</button>
-
-    <input id="urunAdiInput" placeholder="Ürün adı">
-    <input id="urunAciklamaInput" placeholder="Açıklama">
-    <input id="eskiFiyatInput" placeholder="Eski fiyat">
-    <input id="yeniFiyatInput" placeholder="Yeni fiyat">
-    <input type="file" id="resimInput" accept="image/*">
-
-    <button class="btn-turuncu" onclick="urunEkle()">Ürün Ekle</button>
-    <button class="btn-gri" onclick="window.print()">PDF</button>
-    <button class="btn-kirmizi" onclick="hepsiniSil()">Temizle</button>
+  <div id="login">
+    <h2>Şifre Gir</h2>
+    <input type="password" id="sifreInput" placeholder="Şifre">
+    <button onclick="girisYap()">Giriş</button>
   </div>
 
-  <div id="afis">
-    <div class="ustAlan">
-      <div class="logoAlan">
-        <div class="logo">
-          <span class="gross">GROSS</span><br>
-          <span class="mut">MUT</span>
+  <div id="siteIcerik" style="display:none;">
+
+    <div class="panel">
+      <input id="baslikInput" placeholder="Başlık" value="HAFTANIN YILDIZLARI">
+      <input id="tarihInput" placeholder="Tarih" value="21-24 NİSAN">
+      <button class="btnYesil" onclick="afisGuncelle()">Güncelle</button>
+
+      <input id="urunAdiInput" placeholder="Ürün adı">
+      <input id="urunAciklamaInput" placeholder="Açıklama">
+      <input id="eskiFiyatInput" placeholder="Eski fiyat">
+      <input id="yeniFiyatInput" placeholder="Yeni fiyat">
+      <input type="file" id="resimInput" accept="image/*">
+
+      <button class="btnTuruncu" onclick="urunEkle()">Ürün Ekle</button>
+      <button class="btnGri" onclick="window.print()">PDF</button>
+      <button class="btnKirmizi" onclick="tumunuTemizle()">Temizle</button>
+    </div>
+
+    <div id="afis">
+      <div class="ustAlan">
+        <div>
+          <div class="logo">
+            <div class="logoSatir">
+              <span class="gross">GROSS</span><span class="mut">MUT</span>
+            </div>
+          </div>
+          <div class="altBaslik" id="afisBaslik">HAFTANIN YILDIZLARI</div>
         </div>
-        <div class="altBaslik" id="afisBaslik">HAFTANIN YILDIZLARI</div>
+
+        <div class="tarihKutu">
+          <div class="k1">GEÇERLİLİK TARİHİ</div>
+          <div class="k2" id="afisTarih">21-24 NİSAN</div>
+        </div>
+
+        <div class="qrKutu">
+          <img src="IMG_8553.jpeg" alt="Instagram QR">
+          <div class="kullanici">@grossmut33</div>
+          <div class="takip">Bizi takip edin</div>
+        </div>
       </div>
 
-      <div class="tarihKutu">
-        <div class="ust">GEÇERLİLİK TARİHİ</div>
-        <div class="deger" id="afisTarih">16-23 NİSAN</div>
+      <div class="cizgi"></div>
+
+      <div class="grid" id="urunGrid"></div>
+
+      <div class="altNot">
+        <div>Fiyatlar stoklarla sınırlıdır. Görseller temsilidir.</div>
+        <div class="site">WWW.GROSSMUT.COM</div>
       </div>
-
-      <div class="qrKutu">
-        <img src="IMG_8553.jpeg" alt="Instagram QR">
-        <div class="kullanici">@grossmut33</div>
-        <div class="yazi">Bizi takip edin</div>
-      </div>
-    </div>
-
-    <div class="cizgi"></div>
-
-    <div class="grid" id="urunGrid"></div>
-
-    <div class="altNot">
-      <div>Fiyatlar stoklarla sınırlıdır. Görseller temsilidir.</div>
-      <div class="site">WWW.GROSSMUT.COM</div>
     </div>
   </div>
-</div>
 
-<script>
-const DOGRU_SIFRE = "Grossmut7433";
-let urunler = [];
-let secilenResim = "";
+  <script>
+    const DOGRU_SIFRE = "Grossmut7433";
+    let urunler = [];
+    let secilenResim = "";
 
-function girisYap(){
-  const sifre = document.getElementById("sifreInput").value;
-  if(sifre === DOGRU_SIFRE){
-    document.getElementById("login").style.display = "none";
-    document.getElementById("siteIcerik").style.display = "block";
-  } else {
-    alert("Şifre yanlış");
-  }
-}
+    function girisYap() {
+      const sifre = document.getElementById("sifreInput").value;
+      if (sifre === DOGRU_SIFRE) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("siteIcerik").style.display = "block";
+      } else {
+        alert("Şifre yanlış");
+      }
+    }
 
-function afisGuncelle(){
-  const baslik = document.getElementById("baslikInput").value.trim();
-  const tarih = document.getElementById("tarihInput").value.trim();
-  document.getElementById("afisBaslik").innerText = baslik || "HAFTANIN YILDIZLARI";
-  document.getElementById("afisTarih").innerText = tarih || "16-23 NİSAN";
-}
+    function afisGuncelle() {
+      const baslik = document.getElementById("baslikInput").value.trim();
+      const tarih = document.getElementById("tarihInput").value.trim();
 
-document.getElementById("resimInput").addEventListener("change", function(e){
-  const file = e.target.files[0];
-  if(!file){
-    secilenResim = "";
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = function(evt){
-    secilenResim = evt.target.result;
-  };
-  reader.readAsDataURL(file);
-});
+      document.getElementById("afisBaslik").innerText = baslik || "HAFTANIN YILDIZLARI";
+      document.getElementById("afisTarih").innerText = tarih || "21-24 NİSAN";
+    }
 
-function urunEkle(){
-  if(urunler.length >= 12){
-    alert("En fazla 12 ürün eklenebilir.");
-    return;
-  }
+    document.getElementById("resimInput").addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) {
+        secilenResim = "";
+        return;
+      }
 
-  const ad = document.getElementById("urunAdiInput").value.trim();
-  const aciklama = document.getElementById("urunAciklamaInput").value.trim();
-  const eski = document.getElementById("eskiFiyatInput").value.trim();
-  const yeni = document.getElementById("yeniFiyatInput").value.trim();
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        secilenResim = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
 
-  if(!ad && !aciklama && !eski && !yeni && !secilenResim){
-    alert("Ürün bilgisi gir.");
-    return;
-  }
+    function urunEkle() {
+      if (urunler.length >= 12) {
+        alert("En fazla 12 ürün eklenebilir.");
+        return;
+      }
 
-  urunler.push({
-    ad,
-    aciklama,
-    eski,
-    yeni,
-    resim: secilenResim
-  });
+      const ad = document.getElementById("urunAdiInput").value.trim();
+      const aciklama = document.getElementById("urunAciklamaInput").value.trim();
+      const eski = document.getElementById("eskiFiyatInput").value.trim();
+      const yeni = document.getElementById("yeniFiyatInput").value.trim();
 
-  document.getElementById("urunAdiInput").value = "";
-  document.getElementById("urunAciklamaInput").value = "";
-  document.getElementById("eskiFiyatInput").value = "";
-  document.getElementById("yeniFiyatInput").value = "";
-  document.getElementById("resimInput").value = "";
-  secilenResim = "";
+      urunler.push({
+        ad: ad,
+        aciklama: aciklama,
+        eski: eski,
+        yeni: yeni,
+        resim: secilenResim
+      });
 
-  kartlariCiz();
-}
+      document.getElementById("urunAdiInput").value = "";
+      document.getElementById("urunAciklamaInput").value = "";
+      document.getElementById("eskiFiyatInput").value = "";
+      document.getElementById("yeniFiyatInput").value = "";
+      document.getElementById("resimInput").value = "";
+      secilenResim = "";
 
-function hepsiniSil(){
-  urunler = [];
-  kartlariCiz();
-}
+      kartlariCiz();
+    }
 
-function kartlariCiz(){
-  const grid = document.getElementById("urunGrid");
-  let html = "";
+    function tumunuTemizle() {
+      urunler = [];
+      kartlariCiz();
+    }
 
-  for(let i = 0; i < 12; i++){
-    const u = urunler[i];
+    function kartlariCiz() {
+      const grid = document.getElementById("urunGrid");
+      let html = "";
 
-    html += `
-      <div class="kart">
-        <div class="resimAlan">${u && u.resim ? `<img src="${u.resim}" alt="">` : ``}</div>
-        <div class="urunAdi">${u ? (u.ad || "") : ""}</div>
-        <div class="urunAciklama">${u ? (u.aciklama || "") : ""}</div>
-        <div class="eskiFiyat">${u ? (u.eski || "") : ""}</div>
-        <div class="yeniFiyat">${u ? (u.yeni || "") : ""}</div>
-        <div class="indirim">İNDİRİM ŞOKU</div>
-      </div>
-    `;
-  }
+      for (let i = 0; i < 12; i++) {
+        const u = urunler[i];
 
-  grid.innerHTML = html;
-}
+        html += `
+          <div class="kart">
+            <div class="resimAlan">${u && u.resim ? `<img src="${u.resim}" alt="">` : ``}</div>
+            <div class="urunAdi">${u ? (u.ad || "") : ""}</div>
+            <div class="aciklama">${u ? (u.aciklama || "") : ""}</div>
+            <div class="eskiFiyat">${u ? (u.eski || "") : ""}</div>
+            <div class="yeniFiyat">${u ? (u.yeni || "") : ""}</div>
+            <div class="indirim">İNDİRİM ŞOKU</div>
+          </div>
+        `;
+      }
 
-afisGuncelle();
-kartlariCiz();
-</script>
+      grid.innerHTML = html;
+    }
 
+    afisGuncelle();
+    kartlariCiz();
+  </script>
 </body>
 </html>
