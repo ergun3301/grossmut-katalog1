@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gross Mut Haftanın Yıldızları</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#e9edf2;
+    padding:24px;
+    color:#1f2937;
+  }
+
+  .editor{
+    background:#ffffff;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:18px;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+  }
+
+  .editor h2{
+    margin:0 0 12px;
+    font-size:22px;
+  }
+
+  .row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+
+  input, textarea, button{
+    font-family:inherit;
+    font-size:14px;
+  }
+
+  input, textarea{
+    padding:10px 12px;
+    border:1px solid #cfd8e3;
+    border-radius:8px;
+    background:#fff;
+  }
+
+  textarea{
+    width:100%;
+    min-height:70px;
+    resize:vertical;
+  }
+
+  .w1{width:180px}
+  .w2{width:240px}
+  .w3{width:120px}
+
+  button{
+    border:none;
+    border-radius:8px;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
+  }
+
+  .btn-green{background:#16803c;color:#fff}
+  .btn-orange{background:#d99a27;color:#fff}
+  .btn-gray{background:#6b7280;color:#fff}
+  .btn-red{background:#c62828;color:#fff}
+
+  .poster{
+    width:100%;
+    max-width:1000px;
+    margin:0 auto;
+    background:#fff;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+  }
+
+  .top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:24px 24px 16px;
+  }
+
+  .brand{
+    font-size:54px;
+    font-weight:900;
+    letter-spacing:-1px;
+    line-height:1;
+  }
+
+  .brand .gross{color:#24a148}
+  .brand .mut{color:#ef8e1b}
+
+  .subtitle{
+    margin-top:8px;
+    font-size:22px;
+    font-weight:700;
+    color:#27364a;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+
+  .datebox{
+    background:#1ea34a;
+    color:#fff;
+    border-radius:18px;
+    padding:18px 24px;
+    text-align:center;
+    min-width:250px;
+    margin-top:6px;
+  }
+
+  .datebox .small{
+    font-size:20px;
+    font-weight:800;
+    text-transform:uppercase;
+  }
+
+  .datebox .big{
+    margin-top:6px;
+    font-size:44px;
+    font-weight:900;
+    line-height:1;
+  }
+
+  .line{
+    height:6px;
+    background:#20a64a;
+    width:100%;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:0;
+  }
+
+  .card{
+    border-right:1px solid #dce3ea;
+    border-bottom:1px solid #dce3ea;
+    min-height:345px;
+    padding:18px 16px 14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    text-align:center;
+  }
+
+  .card:nth-child(3n){
+    border-right:none;
+  }
+
+  .imgbox{
+    width:150px;
+    height:110px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:12px;
+    overflow:hidden;
+    background:#fff;
+  }
+
+  .imgbox img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+  }
+
+  .placeholder{
+    color:#c0c7d1;
+    font-size:14px;
+  }
+
+  .name{
+    font-size:28px;
+    font-weight:900;
+    text-transform:uppercase;
+    line-height:1.1;
+    min-height:62px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .desc{
+    margin-top:4px;
+    min-height:34px;
+    font-size:15px;
+    color:#6b7280;
+    text-transform:uppercase;
+  }
+
+  .old{
+    margin-top:12px;
+    min-height:28px;
+    color:#b54545;
+    text-decoration:line-through;
+    font-weight:700;
+    font-size:18px;
+  }
+
+  .price{
+    margin-top:2px;
+    color:#18a34a;
+    font-weight:900;
+    line-height:1;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    gap:4px;
+  }
+
+  .price .num{
+    font-size:64px;
+  }
+
+  .price .tl{
+    font-size:28px;
+    margin-top:10px;
+  }
+
+  .shock{
+    margin-top:14px;
+    background:#d9a02c;
+    color:#6a4a00;
+    font-weight:900;
+    padding:8px 16px;
+    width:88%;
+    text-align:center;
+    text-transform:uppercase;
+    font-size:18px;
+    letter-spacing:.5px;
+  }
+
+  .footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 16px 18px;
+    font-size:13px;
+    color:#4b5563;
+    font-weight:700;
+    text-transform:uppercase;
+  }
+
+  .footer .site{
+    font-size:26px;
+    color:#1f2937;
+    font-weight:900;
+  }
+
+  @media (max-width: 900px){
+    .top{
+      flex-direction:column;
+      gap:14px;
+    }
+    .datebox{
+      min-width:unset;
+      width:100%;
+    }
+    .grid{
+      grid-template-columns:repeat(2, 1fr);
+    }
+    .card:nth-child(3n){
+      border-right:1px solid #dce3ea;
+    }
+    .card:nth-child(2n){
+      border-right:none;
+    }
+  }
+
+  @media (max-width: 640px){
+    body{padding:10px}
+    .grid{grid-template-columns:1fr}
+    .card{
+      border-right:none !important;
+    }
+    .brand{font-size:38px}
+    .subtitle{font-size:18px}
+    .datebox .small{font-size:16px}
+    .datebox .big{font-size:34px}
+    .name{font-size:22px}
+    .price .num{font-size:52px}
+  }
+
+  @media print{
+    body{
+      background:#fff;
+      padding:0;
+    }
+    .editor{
+      display:none !important;
+    }
+    .poster{
+      max-width:none;
+      box-shadow:none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="editor">
+  <h2>Gross Mut Afiş Düzenleyici</h2>
+
+  <div class="row">
+    <input id="dateText" class="w2" type="text" value="16 - 23 NİSAN" placeholder="Tarih">
+    <button class="btn-orange" onclick="ornekDoldur()">Örnek Doldur</button>
+    <button class="btn-green" onclick="ekleUrun()">Ürün Ekle</button>
+    <button class="btn-gray" onclick="kaydet()">Kaydet</button>
+    <button class="btn-gray" onclick="yukle()">Yükle</button>
+    <button class="btn-green" onclick="window.print()">PDF Al</button>
+    <button class="btn-red" onclick="hepsiniSil()">Tümünü Sil</button>
+  </div>
+
+  <div class="row">
+    <input id="urunAdi" class="w2" type="text" placeholder="Ürün adı">
+    <input id="urunAciklama" class="w2" type="text" placeholder="Kısa açıklama">
+    <input id="eskiFiyat" class="w3" type="text" placeholder="Eski fiyat">
+    <input id="yeniFiyat" class="w3" type="text" placeholder="Yeni fiyat">
+    <input id="urunResmi" type="file" accept="image/*">
+  </div>
+</div>
+
+<div class="poster">
+  <div class="top">
+    <div>
+      <div class="brand"><span class="gross">GROSS</span> <span class="mut">MUT</span></div>
+      <div class="subtitle">Haftanın Yıldızları</div>
+    </div>
+
+    <div class="datebox">
+      <div class="small">Geçerlilik Tarihi</div>
+      <div class="big" id="tarihGoster">16 - 23 NİSAN</div>
+    </div>
+  </div>
+
+  <div class="line"></div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="footer">
+    <div>Fiyatlar stoklarla sınırlıdır. Görseller temsilidir.</div>
+    <div class="site">WWW.GROSSMUT.COM</div>
+  </div>
+</div>
+
+<script>
+  const maxKart = 9;
+  let urunler = [];
+
+  document.getElementById("dateText").addEventListener("input", function(){
+    document.getElementById("tarihGoster").textContent = this.value || "";
+  });
+
+  function guvenliMetin(t){
+    return String(t || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function render(){
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    for(let i=0; i<maxKart; i++){
+      const kart = document.createElement("div");
+      kart.className = "card";
+
+      if(urunler[i]){
+        const u = urunler[i];
+        kart.innerHTML = `
+          <div class="imgbox">
+            ${u.resim ? `<img src="${u.resim}" alt="">` : `<div class="placeholder">Görsel Yok</div>`}
+          </div>
+          <div class="name">${guvenliMetin(u.ad)}</div>
+          <div class="desc">${guvenliMetin(u.aciklama)}</div>
+          <div class="old">${u.eski ? guvenliMetin(u.eski) + " TL" : "&nbsp;"}</div>
+          <div class="price">
+            <span class="num">${guvenliMetin(u.yeni)}</span>
+            <span class="tl">TL</span>
+          </div>
+          <div class="shock">İndirim Şoku</div>
+        `;
+      } else {
+        kart.innerHTML = `
+          <div class="imgbox"><div class="placeholder">Boş</div></div>
+          <div class="name">&nbsp;</div>
+          <div class="desc">&nbsp;</div>
+          <div class="old">&nbsp;</div>
+          <div class="price"><span class="num">&nbsp;</span></div>
+          <div class="shock">İndirim Şoku</div>
+        `;
+      }
+
+      grid.appendChild(kart);
+    }
+  }
+
+  function temizleForm(){
+    document.getElementById("urunAdi").value = "";
+    document.getElementById("urunAciklama").value = "";
+    document.getElementById("eskiFiyat").value = "";
+    document.getElementById("yeniFiyat").value = "";
+    document.getElementById("urunResmi").value = "";
+  }
+
+  function ekleUrun(){
+    const ad = document.getElementById("urunAdi").value.trim();
+    const aciklama = document.getElementById("urunAciklama").value.trim();
+    const eski = document.getElementById("eskiFiyat").value.trim();
+    const yeni = document.getElementById("yeniFiyat").value.trim();
+    const dosya = document.getElementById("urunResmi");
+
+    if(!ad || !yeni){
+      alert("Ürün adı ve yeni fiyat gir.");
+      return;
+    }
+
+    if(urunler.length >= maxKart){
+      alert("En fazla 9 ürün ekleyebilirsin.");
+      return;
+    }
+
+    if(dosya.files && dosya.files[0]){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        urunler.push({
+          ad: ad,
+          aciklama: aciklama,
+          eski: eski,
+          yeni: yeni,
+          resim: e.target.result
+        });
+        temizleForm();
+        render();
+      };
+      reader.readAsDataURL(dosya.files[0]);
+    } else {
+      urunler.push({
+        ad: ad,
+        aciklama: aciklama,
+        eski: eski,
+        yeni: yeni,
+        resim: ""
+      });
+      temizleForm();
+      render();
+    }
+  }
+
+  function hepsiniSil(){
+    urunler = [];
+    render();
+  }
+
+  function kaydet(){
+    try{
+      const veri = {
+        tarih: document.getElementById("dateText").value,
+        urunler: urunler
+      };
+      localStorage.setItem("grossmut_afis_v1", JSON.stringify(veri));
+      alert("Kaydedildi.");
+    }catch(e){
+      alert("Kaydetme çalışmadı.");
+    }
+  }
+
+  function yukle(){
+    try{
+      const ham = localStorage.getItem("grossmut_afis_v1");
+      if(!ham){
+        alert("Kayıt yok.");
+        return;
+      }
+      const veri = JSON.parse(ham);
+      document.getElementById("dateText").value = veri.tarih || "";
+      document.getElementById("tarihGoster").textContent = veri.tarih || "";
+      urunler = veri.urunler || [];
+      render();
+      alert("Yüklendi.");
+    }catch(e){
+      alert("Yükleme çalışmadı.");
+    }
+  }
+
+  function ornekDoldur(){
+    urunler = [
+      { ad:"EKMEKLİK", aciklama:"METAL", eski:"175", yeni:"125", resim:"" },
+      { ad:"İNTERLIFE", aciklama:"3 LÜ MATARA", eski:"175", yeni:"125", resim:"" },
+      { ad:"İKİLİ SAKLAMA KABI", aciklama:"BAMBU KAPAKLI", eski:"125", yeni:"100", resim:"" },
+      { ad:"SALATA KASESİ", aciklama:"BAMBU KAŞIK-BAMBU ÇATAL", eski:"125", yeni:"100", resim:"" },
+      { ad:"SÜRAHİ SET", aciklama:"2 SU BARDAK-CAM SÜRAHİ", eski:"399", yeni:"299", resim:"" },
+      { ad:"LAV", aciklama:"12 DEMET ÇAY BARDAĞI", eski:"139", yeni:"125", resim:"" },
+      { ad:"ERZAK KABI", aciklama:"4 LÜ ERZAK KABI", eski:"125", yeni:"100", resim:"" },
+      { ad:"MUTFAKÇIM", aciklama:"BOROSİLİKAT KARE CAM KAVANOZ", eski:"150", yeni:"100", resim:"" },
+      { ad:"İNTERLIFE", aciklama:"BAMBU KAPAKLI CAM DEMLİK", eski:"125", yeni:"100", resim:"" }
+    ];
+    render();
+  }
+
+  render();
+</script>
+
+</body>
+</html>
