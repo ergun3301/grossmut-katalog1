@@ -48,7 +48,7 @@ background:#49a63a;color:#fff;border-radius:30px;padding:10px;text-align:center
 display:grid;
 grid-template-columns:repeat(3,1fr);
 grid-template-rows:repeat(4,1fr);
-height:820px;
+height:880px;
 }
 
 /* CARD */
@@ -75,9 +75,23 @@ height:22px;
 cursor:pointer;
 }
 
-/* 🔥 RESİM KÜÇÜK */
+/* RESİM SİL */
+.imgSilBtn{
+position:absolute;
+top:5px;
+left:5px;
+background:#666;
+color:#fff;
+border:none;
+border-radius:8px;
+font-size:10px;
+padding:2px 6px;
+cursor:pointer;
+}
+
+/* 🔥 RESİM ÇOK KÜÇÜK */
 .imgBox{
-height:140px;
+height:35px;
 }
 .imgBox img{
 width:100%;
@@ -94,7 +108,7 @@ object-fit:contain;
 /* PRINT */
 @media print{
 .panel,#login{display:none}
-.silBtn{display:none}
+.silBtn,.imgSilBtn{display:none}
 @page{size:A4;margin:0}
 }
 </style>
@@ -181,6 +195,9 @@ ciz();
 /* SİL */
 function sil(i){urunler.splice(i,1);ciz();}
 
+/* RESİM SİL */
+function resimSil(i){urunler[i].resim="";ciz();}
+
 /* DÜZENLE */
 function duzenle(i){
 let u=urunler[i];
@@ -198,6 +215,7 @@ let u=urunler[i]||{};
 html+=`
 <div class="card">
 ${u.ad?`<button class="silBtn" onclick="sil(${i})">X</button>`:""}
+${u.resim?`<button class="imgSilBtn" onclick="resimSil(${i})">Resim Sil</button>`:""}
 <div class="imgBox">${u.resim?`<img src="${u.resim}">`:``}</div>
 <div class="urunAdi" onclick="duzenle(${i})">${u.ad||""}</div>
 <div class="eski">${u.eski||""}</div>
