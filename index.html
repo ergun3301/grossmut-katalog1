@@ -7,9 +7,8 @@
   <style>
     * { box-sizing: border-box; }
 
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: #eceff1;
     }
@@ -27,7 +26,7 @@
     }
 
     #login h2 {
-      margin-bottom: 12px;
+      margin: 0 0 12px;
     }
 
     #login input {
@@ -62,18 +61,21 @@
       box-shadow: 0 2px 10px rgba(0,0,0,.08);
     }
 
-    .panel input {
+    .panel input,
+    .panel button {
       padding: 8px;
       border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .panel input {
       border: 1px solid #ccc;
     }
 
     .panel button {
-      padding: 8px 12px;
       border: none;
-      border-radius: 6px;
-      font-weight: bold;
       cursor: pointer;
+      font-weight: bold;
     }
 
     .btnEkle { background: orange; color: #fff; }
@@ -189,8 +191,8 @@
     }
 
     .qr img {
-      width: 100px;
-      height: 100px;
+      width: 140px;
+      height: 140px;
       object-fit: contain;
       display: block;
       margin: 0 auto;
@@ -217,7 +219,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      height: 880px;
+      height: 860px;
     }
 
     .card {
@@ -242,7 +244,6 @@
       height: 22px;
       cursor: pointer;
       font-size: 12px;
-      z-index: 2;
     }
 
     .imgSilBtn {
@@ -256,16 +257,15 @@
       font-size: 10px;
       padding: 2px 6px;
       cursor: pointer;
-      z-index: 2;
     }
 
     .imgBox {
       height: 70px;
+      margin-top: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      margin: 22px 0 6px 0;
     }
 
     .imgBox img {
@@ -277,21 +277,19 @@
     .urunAdi {
       font-size: 14px;
       font-weight: bold;
-      cursor: pointer;
       min-height: 30px;
-      line-height: 1.1;
       display: flex;
       align-items: center;
       justify-content: center;
       text-transform: uppercase;
       color: #111;
+      cursor: pointer;
     }
 
     .aciklama {
       font-size: 10px;
       color: #666;
       min-height: 18px;
-      line-height: 1.1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -303,7 +301,6 @@
       text-decoration: line-through;
       font-size: 14px;
       min-height: 18px;
-      line-height: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -314,7 +311,6 @@
       font-size: 26px;
       font-weight: bold;
       min-height: 30px;
-      line-height: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -328,40 +324,20 @@
       font-size: 13px;
     }
 
-    .footer {
-      padding: 6px 12px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      font-weight: bold;
-      color: #555;
-    }
-
-    .footer .site {
-      color: #222;
-      font-size: 16px;
-      font-weight: 900;
-    }
-
     @media print {
       .panel, #login {
         display: none !important;
       }
-
       .silBtn, .imgSilBtn {
         display: none !important;
       }
-
       @page {
         size: A4;
         margin: 0;
       }
-
       body {
         background: #fff;
       }
-
       #afis {
         margin: 0 auto;
         box-shadow: none;
@@ -416,133 +392,180 @@
   </div>
 
   <div class="cizgi"></div>
-
   <div class="grid" id="grid"></div>
-
-  <div class="footer">
-    <div>Fiyatlar stoklarla sınırlıdır. Görseller temsilidir.</div>
-    <div class="site">WWW.GROSSMUT.COM</div>
-  </div>
 </div>
 
 <script>
-let urunler = [];
-let resim = "";
-let duzenlenenIndex = null;
+  const KAYIT_ANAHTAR = "grossmut_katalog_kayitlari_v1";
+  const TARIH_ANAHTAR = "grossmut_katalog_tarih_v1";
 
-function giris() {
-  if (document.getElementById("sifre").value === "7433") {
-    document.getElementById("login").style.display = "none";
-  } else {
-    alert("Yanlış şifre");
+  let urunler = [];
+  let resim = "";
+  let duzenlenenIndex = null;
+
+  function giris() {
+    if (document.getElementById("sifre").value === "7433") {
+      document.getElementById("login").style.display = "none";
+    } else {
+      alert("Yanlış şifre");
+    }
   }
-}
 
-resimInput.onchange = e => {
-  const f = e.target.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = x => resim = x.target.result;
-  r.readAsDataURL(f);
-};
+  function kaydet() {
+    localStorage.setItem(KAYIT_ANAHTAR, JSON.stringify(urunler));
 
-function seciliResmiTemizle() {
-  resim = "";
-  resimInput.value = "";
-}
+    const tarih = {
+      basGun: document.getElementById("basGun").value,
+      bitGun: document.getElementById("bitGun").value,
+      ay: document.getElementById("ayInput").value
+    };
+    localStorage.setItem(TARIH_ANAHTAR, JSON.stringify(tarih));
+  }
 
-eskiInput.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
-yeniInput.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
-basGun.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
-bitGun.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
+  function yukle() {
+    try {
+      const kayitliUrunler = localStorage.getItem(KAYIT_ANAHTAR);
+      if (kayitliUrunler) {
+        urunler = JSON.parse(kayitliUrunler) || [];
+      }
 
-function urunEkle() {
-  const yeniKayit = {
-    ad: urunAdiInput.value,
-    aciklama: aciklamaInput.value,
-    eski: eskiInput.value.replace(/[^0-9]/g,''),
-    yeni: yeniInput.value.replace(/[^0-9]/g,''),
-    resim: resim
+      const kayitliTarih = localStorage.getItem(TARIH_ANAHTAR);
+      if (kayitliTarih) {
+        const tarih = JSON.parse(kayitliTarih);
+        if (tarih) {
+          document.getElementById("basGun").value = tarih.basGun || "21";
+          document.getElementById("bitGun").value = tarih.bitGun || "24";
+          document.getElementById("ayInput").value = tarih.ay || "NİSAN";
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  resimInput.onchange = e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = x => resim = x.target.result;
+    r.readAsDataURL(f);
   };
 
-  if (duzenlenenIndex !== null) {
-    urunler[duzenlenenIndex] = {
-      ...urunler[duzenlenenIndex],
-      ...yeniKayit,
-      resim: resim || urunler[duzenlenenIndex].resim
+  function seciliResmiTemizle() {
+    resim = "";
+    resimInput.value = "";
+  }
+
+  eskiInput.oninput = function() {
+    this.value = this.value.replace(/[^0-9]/g, "");
+  };
+  yeniInput.oninput = function() {
+    this.value = this.value.replace(/[^0-9]/g, "");
+  };
+  basGun.oninput = function() {
+    this.value = this.value.replace(/[^0-9]/g, "");
+    kaydet();
+  };
+  bitGun.oninput = function() {
+    this.value = this.value.replace(/[^0-9]/g, "");
+    kaydet();
+  };
+  ayInput.oninput = function() {
+    kaydet();
+  };
+
+  function urunEkle() {
+    const yeniKayit = {
+      ad: urunAdiInput.value || "",
+      aciklama: aciklamaInput.value || "",
+      eski: (eskiInput.value || "").replace(/[^0-9]/g, ""),
+      yeni: (yeniInput.value || "").replace(/[^0-9]/g, ""),
+      resim: resim || ""
     };
+
+    if (duzenlenenIndex !== null) {
+      urunler[duzenlenenIndex] = {
+        ...urunler[duzenlenenIndex],
+        ...yeniKayit,
+        resim: resim || urunler[duzenlenenIndex].resim || ""
+      };
+      duzenlenenIndex = null;
+    } else {
+      if (urunler.length >= 12) return;
+      urunler.push(yeniKayit);
+    }
+
+    urunAdiInput.value = "";
+    aciklamaInput.value = "";
+    eskiInput.value = "";
+    yeniInput.value = "";
+    resimInput.value = "";
+    resim = "";
+
+    kaydet();
+    ciz();
+  }
+
+  function sil(i) {
+    urunler.splice(i, 1);
+    if (duzenlenenIndex === i) duzenlenenIndex = null;
+    kaydet();
+    ciz();
+  }
+
+  function resimSil(i) {
+    if (!urunler[i]) return;
+    urunler[i].resim = "";
+    kaydet();
+    ciz();
+  }
+
+  function duzenle(i) {
+    const u = urunler[i];
+    if (!u) return;
+    urunAdiInput.value = u.ad || "";
+    aciklamaInput.value = u.aciklama || "";
+    eskiInput.value = u.eski || "";
+    yeniInput.value = u.yeni || "";
+    resim = "";
+    resimInput.value = "";
+    duzenlenenIndex = i;
+  }
+
+  function tumunuTemizle() {
+    urunler = [];
     duzenlenenIndex = null;
-  } else {
-    if (urunler.length >= 12) return;
-    urunler.push(yeniKayit);
+    urunAdiInput.value = "";
+    aciklamaInput.value = "";
+    eskiInput.value = "";
+    yeniInput.value = "";
+    resimInput.value = "";
+    resim = "";
+    localStorage.removeItem(KAYIT_ANAHTAR);
+    ciz();
   }
 
-  urunAdiInput.value = "";
-  aciklamaInput.value = "";
-  eskiInput.value = "";
-  yeniInput.value = "";
-  resimInput.value = "";
-  resim = "";
-
-  ciz();
-}
-
-function sil(i) {
-  urunler.splice(i, 1);
-  if (duzenlenenIndex === i) duzenlenenIndex = null;
-  ciz();
-}
-
-function resimSil(i) {
-  if (!urunler[i]) return;
-  urunler[i].resim = "";
-  ciz();
-}
-
-function duzenle(i) {
-  const u = urunler[i];
-  if (!u) return;
-  urunAdiInput.value = u.ad || "";
-  aciklamaInput.value = u.aciklama || "";
-  eskiInput.value = u.eski || "";
-  yeniInput.value = u.yeni || "";
-  resim = "";
-  resimInput.value = "";
-  duzenlenenIndex = i;
-}
-
-function tumunuTemizle() {
-  urunler = [];
-  duzenlenenIndex = null;
-  urunAdiInput.value = "";
-  aciklamaInput.value = "";
-  eskiInput.value = "";
-  yeniInput.value = "";
-  resimInput.value = "";
-  resim = "";
-  ciz();
-}
-
-function ciz() {
-  let html = "";
-  for (let i = 0; i < 12; i++) {
-    const u = urunler[i] || {};
-    html += `
-      <div class="card">
-        ${u.ad ? `<button class="silBtn" onclick="sil(${i})">X</button>` : ``}
-        ${u.resim ? `<button class="imgSilBtn" onclick="resimSil(${i})">Resim Sil</button>` : ``}
-        <div class="imgBox">${u.resim ? `<img src="${u.resim}">` : ``}</div>
-        <div class="urunAdi" onclick="duzenle(${i})">${u.ad || ""}</div>
-        <div class="aciklama">${u.aciklama || ""}</div>
-        <div class="eski">${u.eski || ""}</div>
-        <div class="yeni">${u.yeni || ""}</div>
-        <div class="indirim">İNDİRİM</div>
-      </div>`;
+  function ciz() {
+    let html = "";
+    for (let i = 0; i < 12; i++) {
+      const u = urunler[i] || {};
+      html += `
+        <div class="card">
+          ${u.ad ? `<button class="silBtn" onclick="sil(${i})">X</button>` : ``}
+          ${u.resim ? `<button class="imgSilBtn" onclick="resimSil(${i})">Resim Sil</button>` : ``}
+          <div class="imgBox">${u.resim ? `<img src="${u.resim}">` : ``}</div>
+          <div class="urunAdi" onclick="duzenle(${i})">${u.ad || ""}</div>
+          <div class="aciklama">${u.aciklama || ""}</div>
+          <div class="eski">${u.eski || ""}</div>
+          <div class="yeni">${u.yeni || ""}</div>
+          <div class="indirim">İNDİRİM</div>
+        </div>`;
+    }
+    grid.innerHTML = html;
   }
-  grid.innerHTML = html;
-}
 
-ciz();
+  yukle();
+  ciz();
 </script>
 
 </body>
