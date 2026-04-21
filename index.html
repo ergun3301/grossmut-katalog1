@@ -7,8 +7,9 @@
   <style>
     * { box-sizing: border-box; }
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: #eceff1;
     }
@@ -98,7 +99,7 @@
     .btnGri { background: #666; color: #fff; }
     .btnYesil { background: green; color: #fff; }
 
-    /* CONTROL PANEL */
+    /* TOP PANEL */
     .panel {
       background: #fff;
       padding: 10px;
@@ -143,22 +144,26 @@
     /* HEADER */
     .header {
       display: grid;
-      grid-template-columns: 1.4fr 0.7fr 0.55fr;
-      gap: 10px;
+      grid-template-columns: 1.55fr 0.75fr 0.50fr;
+      gap: 12px;
       align-items: start;
       padding: 14px 16px 10px 16px;
     }
 
     .logoSatir {
-      font-size: 56px;
+      font-size: 66px;
       font-weight: 900;
-      letter-spacing: -2px;
+      letter-spacing: -3px;
       line-height: .9;
       white-space: nowrap;
+      text-transform: uppercase;
+      font-style: italic;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.05);
     }
 
-    .gross { color: #16a34a; }
-    .mut { color: #f5a300; }
+    .g1 { color: #16a34a; } /* GRO */
+    .g2 { color: #f5a300; } /* ilk S */
+    .g3 { color: #f5a300; } /* SMUT */
 
     .altBaslik {
       margin-top: 8px;
@@ -166,61 +171,74 @@
       font-weight: 900;
       text-transform: uppercase;
       line-height: 1.05;
+      color: #111;
     }
 
+    /* TARIH */
     .tarihKutu {
-      background: green;
+      background: #49a63a;
       color: #fff;
-      border-radius: 18px;
-      padding: 12px;
+      border-radius: 28px;
+      padding: 16px 18px;
       text-align: center;
-      min-height: 100px;
+      min-height: 126px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
     }
 
     .tarihKutu .k1 {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 800;
-    }
-
-    .tarihKutu .k2 {
-      margin-top: 4px;
-      font-size: 28px;
-      font-weight: 900;
-      line-height: 1.05;
+      letter-spacing: .4px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
     }
 
     .tarihSatir {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 5px;
-      margin-top: 4px;
+      gap: 8px;
+    }
+
+    .tarihAyirici {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
     }
 
     .tarihInputKucuk {
-      width: 42px;
+      width: 52px;
+      height: 38px;
       border: none;
-      border-radius: 6px;
+      border-radius: 10px;
       text-align: center;
       padding: 4px;
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: 900;
+      color: #111;
+      background: #fff;
+      outline: none;
     }
 
     .tarihInputAy {
-      width: 90px;
+      width: 120px;
+      height: 38px;
       border: none;
-      border-radius: 6px;
+      border-radius: 10px;
       text-align: center;
       padding: 4px;
-      font-size: 15px;
-      font-weight: bold;
-      margin-top: 5px;
+      font-size: 16px;
+      font-weight: 900;
+      color: #111;
+      background: #fff;
+      margin-top: 8px;
+      outline: none;
     }
 
+    /* QR */
     .qr {
       text-align: center;
       background: #fff;
@@ -242,6 +260,7 @@
       font-weight: 900;
       font-size: 16px;
       margin-top: 4px;
+      color: #111;
     }
 
     .qr .takip {
@@ -259,7 +278,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      height: 930px;
+      height: 880px;
     }
 
     .card {
@@ -302,6 +321,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #111;
     }
 
     .aciklama {
@@ -418,8 +438,10 @@
 
     <input id="urunAdiInput" placeholder="Ürün adı">
     <input id="aciklamaInput" placeholder="Açıklama">
-    <input id="eskiInput" placeholder="Eski fiyat">
-    <input id="yeniInput" placeholder="Yeni fiyat">
+
+    <input id="eskiInput" type="number" inputmode="numeric" min="0" step="1" placeholder="Eski fiyat">
+    <input id="yeniInput" type="number" inputmode="numeric" min="0" step="1" placeholder="Yeni fiyat">
+
     <input type="file" id="resimInput" accept="image/*">
 
     <button class="btnTuruncu" onclick="urunEkle()">Ürün Ekle</button>
@@ -431,18 +453,20 @@
     <div class="header">
       <div>
         <div class="logoSatir">
-          <span class="gross">GROSS</span><span class="mut">MUT</span>
+          <span class="g1">GRO</span><span class="g2">S</span><span class="g3">SMUT</span>
         </div>
         <div class="altBaslik" id="afisBaslik">HAFTANIN YILDIZLARI</div>
       </div>
 
       <div class="tarihKutu">
         <div class="k1">GEÇERLİLİK TARİHİ</div>
+
         <div class="tarihSatir">
           <input class="tarihInputKucuk" id="basGun" type="number" value="21">
-          <span>-</span>
+          <span class="tarihAyirici">-</span>
           <input class="tarihInputKucuk" id="bitGun" type="number" value="24">
         </div>
+
         <input class="tarihInputAy" id="ayInput" value="NİSAN">
       </div>
 
@@ -519,6 +543,26 @@
       document.getElementById("afisBaslik").innerText = baslik || "HAFTANIN YILDIZLARI";
     }
 
+    function sadeceSayiTemizle(deger) {
+      return String(deger).replace(/[^0-9]/g, "");
+    }
+
+    document.getElementById("eskiInput").addEventListener("input", function() {
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    document.getElementById("yeniInput").addEventListener("input", function() {
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    document.getElementById("basGun").addEventListener("input", function() {
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    document.getElementById("bitGun").addEventListener("input", function() {
+      this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
     document.getElementById("resimInput").addEventListener("change", function(e){
       const file = e.target.files[0];
       if (!file) {
@@ -541,8 +585,8 @@
 
       const ad = document.getElementById("urunAdiInput").value.trim();
       const aciklama = document.getElementById("aciklamaInput").value.trim();
-      const eski = document.getElementById("eskiInput").value.trim();
-      const yeni = document.getElementById("yeniInput").value.trim();
+      const eski = sadeceSayiTemizle(document.getElementById("eskiInput").value.trim());
+      const yeni = sadeceSayiTemizle(document.getElementById("yeniInput").value.trim());
 
       urunler.push({
         ad,
