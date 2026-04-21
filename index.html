@@ -48,9 +48,10 @@ background:#49a63a;color:#fff;border-radius:30px;padding:10px;text-align:center
 display:grid;
 grid-template-columns:repeat(3,1fr);
 grid-template-rows:repeat(4,1fr);
-height:760px;
+height:780px;
 }
 
+/* CARD */
 .card{
 border:1px solid #ddd;
 padding:5px;
@@ -60,7 +61,7 @@ position:relative;
 text-align:center;
 }
 
-/* SİL BUTONU */
+/* SİL */
 .silBtn{
 position:absolute;
 top:5px;
@@ -72,17 +73,22 @@ border-radius:50%;
 width:22px;
 height:22px;
 cursor:pointer;
-font-size:12px;
 }
 
-/* RESİM */
-.imgBox{height:300px}
-.imgBox img{width:100%;height:100%;object-fit:cover}
+/* 🔥 RESİM KÜÇÜLTÜLDÜ (DENGELİ) */
+.imgBox{
+height:200px;
+}
+.imgBox img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
 
 /* TEXT */
-.urunAdi{font-size:13px;font-weight:bold;cursor:pointer}
-.eski{color:red;text-decoration:line-through;font-size:13px}
-.yeni{color:green;font-size:24px;font-weight:bold}
+.urunAdi{font-size:14px;font-weight:bold;cursor:pointer}
+.eski{color:red;text-decoration:line-through;font-size:14px}
+.yeni{color:green;font-size:26px;font-weight:bold}
 .indirim{background:gold;padding:5px;margin-top:auto}
 
 /* PRINT */
@@ -142,7 +148,7 @@ let urunler=[],resim="",duzenlenenIndex=null;
 
 /* ŞİFRE */
 function giris(){
-if(document.getElementById("sifre").value==="7433"){
+if(sifre.value==="7433"){
 login.style.display="none";
 }else alert("Yanlış şifre");
 }
@@ -159,39 +165,21 @@ r.readAsDataURL(f);
 eskiInput.oninput=function(){this.value=this.value.replace(/[^0-9]/g,'')}
 yeniInput.oninput=function(){this.value=this.value.replace(/[^0-9]/g,'')}
 
-/* EKLE / GÜNCELLE */
+/* EKLE */
 function urunEkle(){
-
 if(duzenlenenIndex!==null){
-urunler[duzenlenenIndex]={
-ad:urunAdiInput.value,
-eski:eskiInput.value,
-yeni:yeniInput.value,
-resim:resim || urunler[duzenlenenIndex].resim
-};
+urunler[duzenlenenIndex]={ad:urunAdiInput.value,eski:eskiInput.value,yeni:yeniInput.value,resim:resim||urunler[duzenlenenIndex].resim}
 duzenlenenIndex=null;
 }else{
 if(urunler.length>=12)return;
-urunler.push({
-ad:urunAdiInput.value,
-eski:eskiInput.value,
-yeni:yeniInput.value,
-resim:resim
-});
+urunler.push({ad:urunAdiInput.value,eski:eskiInput.value,yeni:yeniInput.value,resim:resim});
 }
-
-urunAdiInput.value="";
-eskiInput.value="";
-yeniInput.value="";
-resim="";
+urunAdiInput.value="";eskiInput.value="";yeniInput.value="";resim="";
 ciz();
 }
 
 /* SİL */
-function sil(i){
-urunler.splice(i,1);
-ciz();
-}
+function sil(i){urunler.splice(i,1);ciz();}
 
 /* DÜZENLE */
 function duzenle(i){
