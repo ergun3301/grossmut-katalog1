@@ -7,8 +7,9 @@
   <style>
     * { box-sizing: border-box; }
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: #eceff1;
     }
@@ -119,6 +120,11 @@
       font-weight: 900;
       text-transform: uppercase;
       color: #111;
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      padding: 0;
     }
 
     .tarihKutu {
@@ -328,16 +334,20 @@
       .panel, #login {
         display: none !important;
       }
+
       .silBtn, .imgSilBtn {
         display: none !important;
       }
+
       @page {
         size: A4;
         margin: 0;
       }
+
       body {
         background: #fff;
       }
+
       #afis {
         margin: 0 auto;
         box-shadow: none;
@@ -371,7 +381,7 @@
       <div class="logoSatir">
         <span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g3">MUT</span>
       </div>
-      <div class="altBaslik">HAFTANIN YILDIZLARI</div>
+      <input id="baslikInput" class="altBaslik" value="HAFTANIN YILDIZLARI">
     </div>
 
     <div class="tarihKutu">
@@ -396,8 +406,8 @@
 </div>
 
 <script>
-  const KAYIT_ANAHTAR = "grossmut_katalog_kayitlari_v1";
-  const TARIH_ANAHTAR = "grossmut_katalog_tarih_v1";
+  const KAYIT_ANAHTAR = "grossmut_katalog_kayitlari_v2";
+  const AYAR_ANAHTAR = "grossmut_katalog_ayarlar_v2";
 
   let urunler = [];
   let resim = "";
@@ -411,15 +421,18 @@
     }
   }
 
-  function kaydet() {
-    localStorage.setItem(KAYIT_ANAHTAR, JSON.stringify(urunler));
-
-    const tarih = {
+  function kaydetAyarlar() {
+    const ayarlar = {
+      baslik: document.getElementById("baslikInput").value,
       basGun: document.getElementById("basGun").value,
       bitGun: document.getElementById("bitGun").value,
       ay: document.getElementById("ayInput").value
     };
-    localStorage.setItem(TARIH_ANAHTAR, JSON.stringify(tarih));
+    localStorage.setItem(AYAR_ANAHTAR, JSON.stringify(ayarlar));
+  }
+
+  function kaydetUrunler() {
+    localStorage.setItem(KAYIT_ANAHTAR, JSON.stringify(urunler));
   }
 
   function yukle() {
@@ -429,18 +442,24 @@
         urunler = JSON.parse(kayitliUrunler) || [];
       }
 
-      const kayitliTarih = localStorage.getItem(TARIH_ANAHTAR);
-      if (kayitliTarih) {
-        const tarih = JSON.parse(kayitliTarih);
-        if (tarih) {
-          document.getElementById("basGun").value = tarih.basGun || "21";
-          document.getElementById("bitGun").value = tarih.bitGun || "24";
-          document.getElementById("ayInput").value = tarih.ay || "NİSAN";
+      const kayitliAyarlar = localStorage.getItem(AYAR_ANAHTAR);
+      if (kayitliAyarlar) {
+        const a = JSON.parse(kayitliAyarlar);
+        if (a) {
+          baslikInput.value = a.baslik || "HAFTANIN YILDIZLARI";
+          basGun.value = a.basGun || "21";
+          bitGun.value = a.bitGun || "24";
+          ayInput.value = a.ay || "NİSAN";
         }
       }
     } catch (e) {
       console.error(e);
     }
+  }
+
+  function seciliResmiTemizle() {
+    resim = "";
+    resimInput.value = "";
   }
 
   resimInput.onchange = e => {
@@ -451,11 +470,6 @@
     r.readAsDataURL(f);
   };
 
-  function seciliResmiTemizle() {
-    resim = "";
-    resimInput.value = "";
-  }
-
   eskiInput.oninput = function() {
     this.value = this.value.replace(/[^0-9]/g, "");
   };
@@ -464,14 +478,17 @@
   };
   basGun.oninput = function() {
     this.value = this.value.replace(/[^0-9]/g, "");
-    kaydet();
+    kaydetAyarlar();
   };
   bitGun.oninput = function() {
     this.value = this.value.replace(/[^0-9]/g, "");
-    kaydet();
+    kaydetAyarlar();
   };
   ayInput.oninput = function() {
-    kaydet();
+    kaydetAyarlar();
+  };
+  baslikInput.oninput = function() {
+    kaydetAyarlar();
   };
 
   function urunEkle() {
@@ -502,21 +519,21 @@
     resimInput.value = "";
     resim = "";
 
-    kaydet();
+    kaydetUrunler();
     ciz();
   }
 
   function sil(i) {
     urunler.splice(i, 1);
     if (duzenlenenIndex === i) duzenlenenIndex = null;
-    kaydet();
+    kaydetUrunler();
     ciz();
   }
 
   function resimSil(i) {
     if (!urunler[i]) return;
     urunler[i].resim = "";
-    kaydet();
+    kaydetUrunler();
     ciz();
   }
 
