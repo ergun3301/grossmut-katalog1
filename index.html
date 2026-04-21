@@ -1,475 +1,186 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grossmut Market Afişi</title>
-  <style>
-    * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grossmut Afiş</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #eceff1;
-    }
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#eee}
 
-    #login {
-      position: fixed;
-      inset: 0;
-      background: #111;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
+/* LOGIN */
+#login{
+position:fixed;inset:0;background:#111;color:#fff;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+z-index:9999;
+}
+#login input{padding:12px;font-size:18px;border:none;border-radius:8px}
+#login button{margin-top:10px;padding:10px;background:green;color:#fff;border:none;border-radius:6px}
 
-    #login h2 {
-      margin: 0 0 12px;
-    }
+/* SETTINGS ICON */
+#ayarBtn{
+position:fixed;top:10px;right:10px;
+font-size:25px;background:#fff;border-radius:50%;
+padding:8px;cursor:pointer;z-index:50;
+}
 
-    #login input {
-      width: 240px;
-      padding: 12px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      text-align: center;
-    }
+/* SETTINGS PANEL */
+#ayarPanel{
+position:fixed;top:60px;right:10px;
+background:#fff;padding:10px;border-radius:10px;
+display:none;z-index:50;width:220px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+#ayarPanel input{width:100%;margin-top:5px;padding:8px}
+#ayarPanel button{margin-top:5px;width:100%;padding:8px}
 
-    #login button {
-      margin-top: 10px;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 8px;
-      background: #0b8f1e;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* AFIS */
+#afis{
+width:794px;height:1123px;margin:10px auto;background:#fff;overflow:hidden;position:relative;
+}
 
-    .panel {
-      background: #fff;
-      padding: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      box-shadow: 0 2px 10px rgba(0,0,0,.08);
-    }
+/* HEADER */
+.header{
+display:flex;justify-content:space-between;align-items:center;padding:15px;
+}
+.logo{
+font-size:55px;font-weight:900;
+}
+.logo span:first-child{color:#16a34a}
+.logo span:last-child{color:#f59e0b}
 
-    .panel input {
-      padding: 9px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-    }
+.tarih{
+background:green;color:#fff;padding:10px;border-radius:10px;font-weight:bold;
+}
 
-    .panel button {
-      padding: 10px 14px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* QR */
+.qr{text-align:center}
+.qr img{width:100px}
 
-    .btnYesil { background: #0b8f1e; color: #fff; }
-    .btnTuruncu { background: #f1a208; color: #fff; }
-    .btnGri { background: #666; color: #fff; }
-    .btnKirmizi { background: #c62828; color: #fff; }
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+grid-template-rows:repeat(4,1fr);
+height:900px;
+}
 
-    /* A4 tek sayfa görünüm */
-    #afis {
-      width: 794px;
-      height: 1123px;
-      margin: 14px auto;
-      background: #fff;
-      box-shadow: 0 6px 18px rgba(0,0,0,.12);
-      overflow: hidden;
-      position: relative;
-    }
+/* CARD */
+.card{
+border:1px solid #ddd;padding:5px;text-align:center;display:flex;flex-direction:column;
+}
+.imgBox{height:130px}
+.imgBox img{width:100%;height:100%;object-fit:cover}
 
-    .ustAlan {
-      display: grid;
-      grid-template-columns: 1.45fr 0.65fr 0.55fr;
-      gap: 10px;
-      align-items: start;
-      padding: 16px 18px 10px 18px;
-    }
+.eski{text-decoration:line-through;color:red}
+.yeni{color:green;font-size:40px;font-weight:bold}
 
-    .logo {
-      line-height: .88;
-      font-weight: 900;
-      letter-spacing: -2px;
-    }
+.indirim{background:gold;padding:5px;font-weight:bold;margin-top:auto}
 
-    .logoSatir {
-      font-size: 60px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .gross { color: #16a34a; }
-    .mut { color: #f5a300; }
-
-    .altBaslik {
-      margin-top: 8px;
-      font-size: 26px;
-      font-weight: 900;
-      text-transform: uppercase;
-      line-height: 1.05;
-    }
-
-    .tarihKutu {
-      background: #0c9b19;
-      color: #fff;
-      border-radius: 18px;
-      padding: 12px;
-      text-align: center;
-      min-height: 108px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .tarihKutu .k1 {
-      font-size: 16px;
-      font-weight: 800;
-    }
-
-    .tarihKutu .k2 {
-      margin-top: 4px;
-      font-size: 30px;
-      font-weight: 900;
-      line-height: 1.05;
-    }
-
-    .qrKutu {
-      background: #fff;
-      border-radius: 16px;
-      padding: 8px;
-      text-align: center;
-      box-shadow: 0 0 8px rgba(0,0,0,.08);
-    }
-
-    .qrKutu img {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto;
-      border-radius: 12px;
-    }
-
-    .qrKutu .kullanici {
-      font-size: 18px;
-      font-weight: 900;
-      margin-top: 5px;
-    }
-
-    .qrKutu .takip {
-      font-size: 12px;
-      color: #555;
-    }
-
-    .cizgi {
-      height: 5px;
-      background: #17a42a;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      height: 920px;
-    }
-
-    .kart {
-      border-right: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-      padding: 8px 8px 6px 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .kart:nth-child(3n) {
-      border-right: none;
-    }
-
-    .resimAlan {
-      width: 100%;
-      height: 96px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 6px;
-      overflow: hidden;
-    }
-
-    .resimAlan img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .urunAdi {
-      font-size: 20px;
-      font-weight: 900;
-      line-height: 1.02;
-      min-height: 42px;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .aciklama {
-      font-size: 11px;
-      color: #666;
-      line-height: 1.1;
-      min-height: 26px;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .eskiFiyat {
-      margin-top: 6px;
-      min-height: 24px;
-      color: #b22222;
-      text-decoration: line-through;
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .yeniFiyat {
-      min-height: 52px;
-      color: #17b12a;
-      font-size: 56px;
-      font-weight: 900;
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .indirim {
-      margin-top: auto;
-      width: 100%;
-      background: #d4a017;
-      color: #6a4a00;
-      font-size: 18px;
-      font-weight: 900;
-      padding: 7px 0;
-      text-transform: uppercase;
-    }
-
-    .altNot {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 14px 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #555;
-      background: #fff;
-    }
-
-    .site {
-      font-size: 20px;
-      font-weight: 900;
-      color: #222;
-    }
-
-    @media print {
-      body {
-        background: #fff;
-      }
-
-      .panel {
-        display: none !important;
-      }
-
-      #afis {
-        margin: 0;
-        box-shadow: none;
-      }
-
-      @page {
-        size: A4 portrait;
-        margin: 0;
-      }
-    }
-  </style>
+/* PRINT */
+@media print{
+#login,#ayarBtn,#ayarPanel{display:none!important}
+body{background:#fff}
+#afis{margin:0;box-shadow:none}
+@page{size:A4;margin:0}
+}
+</style>
 </head>
+
 <body>
 
-  <div id="login">
-    <h2>Şifre Gir</h2>
-    <input type="password" id="sifreInput" placeholder="Şifre">
-    <button onclick="girisYap()">Giriş</button>
-  </div>
+<!-- LOGIN -->
+<div id="login">
+<h2>Şifre</h2>
+<input type="password" id="sifre">
+<button onclick="giris()">Giriş</button>
+</div>
 
-  <div id="siteIcerik" style="display:none;">
+<!-- SETTINGS -->
+<div id="ayarBtn" onclick="toggleAyar()">⚙️</div>
 
-    <div class="panel">
-      <input id="baslikInput" placeholder="Başlık" value="HAFTANIN YILDIZLARI">
-      <input id="tarihInput" placeholder="Tarih" value="21-24 NİSAN">
-      <button class="btnYesil" onclick="afisGuncelle()">Güncelle</button>
+<div id="ayarPanel">
+<input type="password" id="eski" placeholder="Mevcut şifre">
+<input type="password" id="yeni" placeholder="Yeni şifre">
+<input type="password" id="tekrar" placeholder="Tekrar">
+<button onclick="sifreDegistir()">Kaydet</button>
+<button onclick="window.print()">PDF</button>
+</div>
 
-      <input id="urunAdiInput" placeholder="Ürün adı">
-      <input id="urunAciklamaInput" placeholder="Açıklama">
-      <input id="eskiFiyatInput" placeholder="Eski fiyat">
-      <input id="yeniFiyatInput" placeholder="Yeni fiyat">
-      <input type="file" id="resimInput" accept="image/*">
+<!-- AFIS -->
+<div id="afis">
 
-      <button class="btnTuruncu" onclick="urunEkle()">Ürün Ekle</button>
-      <button class="btnGri" onclick="window.print()">PDF</button>
-      <button class="btnKirmizi" onclick="tumunuTemizle()">Temizle</button>
-    </div>
+<div class="header">
+<div>
+<div class="logo">
+<span>GROSS</span><span>MUT</span>
+</div>
+<div><b>HAFTANIN YILDIZLARI</b></div>
+</div>
 
-    <div id="afis">
-      <div class="ustAlan">
-        <div>
-          <div class="logo">
-            <div class="logoSatir">
-              <span class="gross">GROSS</span><span class="mut">MUT</span>
-            </div>
-          </div>
-          <div class="altBaslik" id="afisBaslik">HAFTANIN YILDIZLARI</div>
-        </div>
+<div class="tarih">
+<input id="bas" type="number" value="21" style="width:40px"> -
+<input id="bit" type="number" value="24" style="width:40px"><br>
+<input id="ay" value="NİSAN" style="width:80px">
+</div>
 
-        <div class="tarihKutu">
-          <div class="k1">GEÇERLİLİK TARİHİ</div>
-          <div class="k2" id="afisTarih">21-24 NİSAN</div>
-        </div>
+<div class="qr">
+<img src="IMG_8553.jpeg">
+<div>@grossmut33</div>
+</div>
+</div>
 
-        <div class="qrKutu">
-          <img src="IMG_8553.jpeg" alt="Instagram QR">
-          <div class="kullanici">@grossmut33</div>
-          <div class="takip">Bizi takip edin</div>
-        </div>
-      </div>
+<div class="grid" id="grid"></div>
 
-      <div class="cizgi"></div>
+</div>
 
-      <div class="grid" id="urunGrid"></div>
+<script>
 
-      <div class="altNot">
-        <div>Fiyatlar stoklarla sınırlıdır. Görseller temsilidir.</div>
-        <div class="site">WWW.GROSSMUT.COM</div>
-      </div>
-    </div>
-  </div>
+// PASSWORD
+function aktifSifre(){
+return localStorage.getItem("sifre")||"Grossmut7433";
+}
 
-  <script>
-    const DOGRU_SIFRE = "Grossmut7433";
-    let urunler = [];
-    let secilenResim = "";
+function giris(){
+if(document.getElementById("sifre").value===aktifSifre()){
+document.getElementById("login").style.display="none";
+}else alert("Yanlış");
+}
 
-    function girisYap() {
-      const sifre = document.getElementById("sifreInput").value;
-      if (sifre === DOGRU_SIFRE) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("siteIcerik").style.display = "block";
-      } else {
-        alert("Şifre yanlış");
-      }
-    }
+function sifreDegistir(){
+let e=document.getElementById("eski").value;
+let y=document.getElementById("yeni").value;
+let t=document.getElementById("tekrar").value;
 
-    function afisGuncelle() {
-      const baslik = document.getElementById("baslikInput").value.trim();
-      const tarih = document.getElementById("tarihInput").value.trim();
+if(e!==aktifSifre()) return alert("Eski yanlış");
+if(y!==t) return alert("Aynı değil");
 
-      document.getElementById("afisBaslik").innerText = baslik || "HAFTANIN YILDIZLARI";
-      document.getElementById("afisTarih").innerText = tarih || "21-24 NİSAN";
-    }
+localStorage.setItem("sifre",y);
+alert("Değişti");
+}
 
-    document.getElementById("resimInput").addEventListener("change", function (e) {
-      const file = e.target.files[0];
-      if (!file) {
-        secilenResim = "";
-        return;
-      }
+function toggleAyar(){
+let p=document.getElementById("ayarPanel");
+p.style.display=p.style.display==="block"?"none":"block";
+}
 
-      const reader = new FileReader();
-      reader.onload = function (evt) {
-        secilenResim = evt.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
+// GRID 12 KARE
+let html="";
+for(let i=0;i<12;i++){
+html+=`
+<div class="card">
+<div class="imgBox"><img src="IMG_8553.jpeg"></div>
+<div><b>ÜRÜN</b></div>
+<div class="eski">100</div>
+<div class="yeni">59</div>
+<div class="indirim">İNDİRİM</div>
+</div>
+`;
+}
+document.getElementById("grid").innerHTML=html;
 
-    function urunEkle() {
-      if (urunler.length >= 12) {
-        alert("En fazla 12 ürün eklenebilir.");
-        return;
-      }
+</script>
 
-      const ad = document.getElementById("urunAdiInput").value.trim();
-      const aciklama = document.getElementById("urunAciklamaInput").value.trim();
-      const eski = document.getElementById("eskiFiyatInput").value.trim();
-      const yeni = document.getElementById("yeniFiyatInput").value.trim();
-
-      urunler.push({
-        ad: ad,
-        aciklama: aciklama,
-        eski: eski,
-        yeni: yeni,
-        resim: secilenResim
-      });
-
-      document.getElementById("urunAdiInput").value = "";
-      document.getElementById("urunAciklamaInput").value = "";
-      document.getElementById("eskiFiyatInput").value = "";
-      document.getElementById("yeniFiyatInput").value = "";
-      document.getElementById("resimInput").value = "";
-      secilenResim = "";
-
-      kartlariCiz();
-    }
-
-    function tumunuTemizle() {
-      urunler = [];
-      kartlariCiz();
-    }
-
-    function kartlariCiz() {
-      const grid = document.getElementById("urunGrid");
-      let html = "";
-
-      for (let i = 0; i < 12; i++) {
-        const u = urunler[i];
-
-        html += `
-          <div class="kart">
-            <div class="resimAlan">${u && u.resim ? `<img src="${u.resim}" alt="">` : ``}</div>
-            <div class="urunAdi">${u ? (u.ad || "") : ""}</div>
-            <div class="aciklama">${u ? (u.aciklama || "") : ""}</div>
-            <div class="eskiFiyat">${u ? (u.eski || "") : ""}</div>
-            <div class="yeniFiyat">${u ? (u.yeni || "") : ""}</div>
-            <div class="indirim">İNDİRİM ŞOKU</div>
-          </div>
-        `;
-      }
-
-      grid.innerHTML = html;
-    }
-
-    afisGuncelle();
-    kartlariCiz();
-  </script>
 </body>
 </html>
