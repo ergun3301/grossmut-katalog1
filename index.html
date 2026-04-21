@@ -3,80 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grossmut Katalog</title>
+<title>Grossmut Afiş</title>
 
 <style>
 *{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f0f2f5}
 
-body{
-  margin:0;
-  padding:20px;
-  font-family:Arial;
-  background:#eef1f4;
-}
+/* ŞİFRE */
+#login{text-align:center;margin-top:120px}
+#login input{padding:10px;font-size:18px}
 
-.panel{
-  background:#fff;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:15px;
-}
-
-input{
-  padding:10px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  margin:5px;
-}
-
-button{
-  padding:10px;
-  border:none;
-  border-radius:6px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
+/* PANEL */
+.panel{background:#fff;padding:10px}
+input{padding:8px;margin:3px;border:1px solid #ccc;border-radius:6px}
+button{padding:8px;border:none;border-radius:6px;font-weight:bold}
 .yesil{background:green;color:#fff}
 .turuncu{background:orange;color:#fff}
-.gri{background:#666;color:#fff}
 
-.poster{
-  background:#fff;
-  max-width:1100px;
-  margin:auto;
-}
+/* AFİŞ */
+.poster{max-width:1100px;margin:auto;background:#fff}
 
 .ust{
   display:flex;
   justify-content:space-between;
+  align-items:flex-start;
   padding:15px;
 }
 
+/* LOGO */
 .logo{
-  font-size:40px;
-  font-weight:bold;
+  font-size:45px;
+  font-weight:900;
 }
 .logo span:first-child{color:green}
 .logo span:last-child{color:orange}
 
 .baslik{
   font-size:22px;
-  font-weight:bold;
+  font-weight:900;
 }
 
+/* TARİH */
 .tarih{
   background:green;
   color:#fff;
-  padding:10px;
-  border-radius:10px;
+  padding:15px;
+  border-radius:15px;
+  font-weight:bold;
   text-align:center;
 }
 
-.qr img{
-  width:100px;
+/* QR */
+.qr{
+  background:#fff;
+  padding:10px;
+  border-radius:12px;
+  text-align:center;
+  width:150px;
+  box-shadow:0 0 8px rgba(0,0,0,0.1);
 }
 
+.qr img{
+  width:100%;
+  border-radius:10px;
+}
+
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -85,14 +77,14 @@ button{
 .kart{
   border:1px solid #ddd;
   padding:10px;
+  height:430px;
   text-align:center;
-  height:420px;
   display:flex;
   flex-direction:column;
 }
 
 .resim{
-  height:200px;
+  height:210px;
 }
 .resim img{
   width:100%;
@@ -100,9 +92,10 @@ button{
   object-fit:contain;
 }
 
+/* YAZILAR */
 .ad{
-  font-size:22px;
-  font-weight:bold;
+  font-size:24px;
+  font-weight:900;
 }
 
 .aciklama{
@@ -116,18 +109,20 @@ button{
 }
 
 .yeni{
-  font-size:40px;
+  font-size:48px;
+  font-weight:900;
   color:green;
-  font-weight:bold;
 }
 
-.alt{
-  background:goldenrod;
-  font-weight:bold;
-  padding:5px;
+/* ALT ŞERİT */
+.indirim{
   margin-top:auto;
+  background:#d4a017;
+  font-weight:900;
+  padding:6px;
 }
 
+/* PRINT */
 @media print{
   .panel{display:none}
 }
@@ -136,50 +131,91 @@ button{
 
 <body>
 
+<!-- ŞİFRE -->
+<div id="login">
+  <h2>Şifre Gir</h2>
+  <input type="password" id="sifre">
+  <button onclick="giris()">Giriş</button>
+</div>
+
+<!-- SİTE -->
+<div id="site" style="display:none;">
+
 <div class="panel">
-  <input id="baslikInput" placeholder="Başlık">
-  <input id="tarihInput" placeholder="Tarih">
-  <button class="yesil" onclick="guncelle()">Güncelle</button>
+<input id="baslikInput" placeholder="Başlık">
+<input id="tarihInput" placeholder="Tarih">
+<button class="yesil" onclick="guncelle()">Güncelle</button>
 
-  <br>
+<br>
 
-  <input id="ad" placeholder="Ürün adı">
-  <input id="aciklama" placeholder="Açıklama">
-  <input id="eski" placeholder="Eski fiyat">
-  <input id="yeni" placeholder="Yeni fiyat">
-  <input id="resim" placeholder="Resim linki">
+<input id="ad" placeholder="Ürün adı">
+<input id="aciklama" placeholder="Açıklama">
+<input id="eski" placeholder="Eski fiyat">
+<input id="yeni" placeholder="Yeni fiyat">
+<input type="file" id="resim">
 
-  <button class="turuncu" onclick="ekle()">Ürün ekle</button>
-  <button class="gri" onclick="window.print()">PDF</button>
+<button class="turuncu" onclick="ekle()">Ürün ekle</button>
+<button onclick="window.print()">PDF</button>
 </div>
 
 <div class="poster">
 
-  <div class="ust">
-    <div>
-      <div class="logo"><span>GROSS</span> <span>MUT</span></div>
-      <div class="baslik" id="baslik">Haftanın Yıldızları</div>
-    </div>
-
-    <div class="tarih" id="tarih">16-23 NİSAN</div>
-
-    <div class="qr">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://www.instagram.com/grossmut33">
-    </div>
+<div class="ust">
+  <div>
+    <div class="logo"><span>GROSS</span> <span>MUT</span></div>
+    <div class="baslik" id="baslik">HAFTANIN YILDIZLARI</div>
   </div>
 
-  <div class="grid" id="grid"></div>
+  <div class="tarih" id="tarih">16-23 NİSAN</div>
 
+  <!-- 🔥 INSTAGRAM QR -->
+  <div class="qr">
+    <img src="qr.png">
+
+    <div style="font-weight:bold;margin-top:5px;">
+      @grossmut33
+    </div>
+
+    <div style="font-size:12px;color:#444;">
+      Bizi takip edin
+    </div>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+</div>
 </div>
 
 <script>
-let urunler=[]
 
-function guncelle(){
-  document.getElementById("baslik").innerText=document.getElementById("baslikInput").value
-  document.getElementById("tarih").innerText=document.getElementById("tarihInput").value
+let urunler=[]
+let imgData=""
+
+/* 🔒 ŞİFRE */
+function giris(){
+  if(sifre.value==="Grossmut7433"){
+    login.style.display="none"
+    site.style.display="block"
+  }else{
+    alert("Şifre yanlış")
+  }
 }
 
+/* BAŞLIK */
+function guncelle(){
+  baslik.innerText=baslikInput.value
+  tarih.innerText=tarihInput.value
+}
+
+/* RESİM */
+resim.onchange=function(e){
+  let r=new FileReader()
+  r.onload=function(x){imgData=x.target.result}
+  r.readAsDataURL(e.target.files[0])
+}
+
+/* EKLE */
 function ekle(){
   if(urunler.length>=12){
     alert("Max 12 ürün")
@@ -191,33 +227,34 @@ function ekle(){
     aciklama:aciklama.value,
     eski:eski.value,
     yeni:yeni.value,
-    resim:resim.value
+    img:imgData
   })
 
   ciz()
 }
 
+/* ÇİZ */
 function ciz(){
-  let html=""
-
+  let h=""
   for(let i=0;i<12;i++){
     let u=urunler[i]
 
-    html+=`
+    h+=`
     <div class="kart">
-      <div class="resim">${u?`<img src="${u.resim}">`:""}</div>
+      <div class="resim">${u?`<img src="${u.img}">`:""}</div>
       <div class="ad">${u?u.ad:""}</div>
       <div class="aciklama">${u?u.aciklama:""}</div>
-      <div class="eski">${u?u.eski+" TL":""}</div>
+      <div class="eski">${u?u.eski:""}</div>
       <div class="yeni">${u?u.yeni:""}</div>
-      <div class="alt">İNDİRİM ŞOKU</div>
+      <div class="indirim">İNDİRİM ŞOKU</div>
     </div>`
   }
 
-  grid.innerHTML=html
+  grid.innerHTML=h
 }
 
 ciz()
+
 </script>
 
 </body>
