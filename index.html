@@ -1,229 +1,545 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grossmut Afiş</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grossmut Afiş</title>
+  <style>
+    * { box-sizing: border-box; }
 
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#eceff1}
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eceff1;
+    }
 
-/* LOGIN */
-#login{
-position:fixed;inset:0;background:#111;color:#fff;
-display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999
-}
-#login input{padding:12px;font-size:18px;border-radius:8px;text-align:center}
-#login button{margin-top:10px;padding:10px 20px;background:green;color:#fff;border:none;border-radius:8px}
+    #login {
+      position: fixed;
+      inset: 0;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
 
-/* PANEL */
-.panel{
-background:#fff;padding:10px;display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:0
-}
-.panel input{padding:8px;border-radius:6px;border:1px solid #ccc}
+    #login h2 {
+      margin-bottom: 12px;
+    }
 
-/* A4 */
-#afis{
-width:794px;height:1123px;margin:auto;background:#fff;overflow:hidden
-}
+    #login input {
+      width: 240px;
+      padding: 12px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      text-align: center;
+    }
 
-/* HEADER */
-.header{
-display:grid;grid-template-columns:1.5fr 0.7fr 0.5fr;padding:10px
-}
-.logoSatir{font-size:70px;font-weight:900;font-style:italic}
-.g1{color:#1ca42f}
-.g2{color:#f5a300}
-.g3{color:#f5a300}
+    #login button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: green;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-/* TARİH */
-.tarihKutu{
-background:#49a63a;color:#fff;border-radius:30px;padding:10px;text-align:center
-}
-.tarihSatir{display:flex;justify-content:center;gap:8px}
+    .panel {
+      background: #fff;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
 
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-grid-template-rows:repeat(4,1fr);
-height:880px;
-}
+    .panel input {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
 
-/* CARD */
-.card{
-border:1px solid #ddd;
-padding:5px;
-display:flex;
-flex-direction:column;
-position:relative;
-text-align:center;
-}
+    .panel button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-/* SİL */
-.silBtn{
-position:absolute;
-top:5px;
-right:5px;
-background:red;
-color:#fff;
-border:none;
-border-radius:50%;
-width:22px;
-height:22px;
-cursor:pointer;
-}
+    .btnEkle { background: orange; color: #fff; }
+    .btnPdf { background: #666; color: #fff; }
+    .btnTemizle { background: #c62828; color: #fff; }
+    .btnResimSil { background: #777; color: #fff; }
 
-/* RESİM SİL */
-.imgSilBtn{
-position:absolute;
-top:5px;
-left:5px;
-background:#666;
-color:#fff;
-border:none;
-border-radius:8px;
-font-size:10px;
-padding:2px 6px;
-cursor:pointer;
-}
+    #afis {
+      width: 794px;
+      height: 1123px;
+      margin: 10px auto;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+    }
 
-/* 🔥 RESİM ÇOK KÜÇÜK */
-.imgBox{
-height:35px;
-}
-.imgBox img{
-width:100%;
-height:100%;
-object-fit:contain;
-}
+    .header {
+      display: grid;
+      grid-template-columns: 1.5fr 0.7fr 0.5fr;
+      gap: 10px;
+      padding: 10px;
+      align-items: start;
+    }
 
-/* TEXT */
-.urunAdi{font-size:14px;font-weight:bold;cursor:pointer}
-.eski{color:red;text-decoration:line-through;font-size:14px}
-.yeni{color:green;font-size:26px;font-weight:bold}
-.indirim{background:gold;padding:5px;margin-top:auto}
+    .logoSatir {
+      font-size: 70px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -3px;
+      line-height: .9;
+      white-space: nowrap;
+    }
 
-/* PRINT */
-@media print{
-.panel,#login{display:none}
-.silBtn,.imgSilBtn{display:none}
-@page{size:A4;margin:0}
-}
-</style>
+    .g1 { color: #1ca42f; }
+    .g2 { color: #f5a300; }
+    .g3 { color: #f5a300; }
+
+    .altBaslik {
+      margin-top: 6px;
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #111;
+    }
+
+    .tarihKutu {
+      background: #49a63a;
+      color: #fff;
+      border-radius: 30px;
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 128px;
+    }
+
+    .tarihBaslik {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: .4px;
+    }
+
+    .tarihSatir {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .tarihInputKucuk {
+      width: 56px;
+      height: 38px;
+      border: none;
+      border-radius: 10px;
+      background: #fff;
+      color: #111;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 900;
+      outline: none;
+    }
+
+    .tarihAyirici {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .tarihInputAy {
+      width: 120px;
+      height: 38px;
+      border: none;
+      border-radius: 10px;
+      background: #fff;
+      color: #111;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 900;
+      margin-top: 8px;
+      outline: none;
+    }
+
+    .qr {
+      text-align: center;
+      background: #fff;
+      border-radius: 14px;
+      padding: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,.08);
+    }
+
+    .qr img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+
+    .qr .kullanici {
+      font-weight: 900;
+      font-size: 15px;
+      margin-top: 4px;
+    }
+
+    .qr .takip {
+      font-size: 12px;
+      color: #555;
+    }
+
+    .cizgi {
+      height: 5px;
+      background: #1ca42f;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      height: 880px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .silBtn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: red;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      font-size: 12px;
+      z-index: 2;
+    }
+
+    .imgSilBtn {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: #666;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 10px;
+      padding: 2px 6px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .imgBox {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin: 22px 0 6px 0;
+    }
+
+    .imgBox img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .urunAdi {
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      min-height: 30px;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      color: #111;
+    }
+
+    .aciklama {
+      font-size: 10px;
+      color: #666;
+      min-height: 18px;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
+    .eski {
+      color: red;
+      text-decoration: line-through;
+      font-size: 14px;
+      min-height: 18px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .yeni {
+      color: green;
+      font-size: 26px;
+      font-weight: bold;
+      min-height: 30px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .indirim {
+      background: gold;
+      padding: 5px;
+      margin-top: auto;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .footer {
+      padding: 6px 12px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .footer .site {
+      color: #222;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    @media print {
+      .panel, #login {
+        display: none !important;
+      }
+
+      .silBtn, .imgSilBtn {
+        display: none !important;
+      }
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      #afis {
+        margin: 0 auto;
+        box-shadow: none;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
 <div id="login">
-<h2>Şifre</h2>
-<input type="password" id="sifre">
-<button onclick="giris()">Giriş</button>
+  <h2>Şifre</h2>
+  <input type="password" id="sifre">
+  <button onclick="giris()">Giriş</button>
 </div>
 
 <div class="panel">
-<input id="urunAdiInput" placeholder="Ürün">
-<input id="eskiInput" type="number">
-<input id="yeniInput" type="number">
-<input type="file" id="resimInput">
-<button onclick="urunEkle()">Ekle</button>
-<button onclick="window.print()">PDF</button>
+  <input id="urunAdiInput" placeholder="Ürün">
+  <input id="aciklamaInput" placeholder="Açıklama">
+  <input id="eskiInput" type="number" inputmode="numeric" placeholder="Eski fiyat">
+  <input id="yeniInput" type="number" inputmode="numeric" placeholder="Yeni fiyat">
+  <input type="file" id="resimInput">
+  <button class="btnEkle" onclick="urunEkle()">Ekle</button>
+  <button class="btnResimSil" onclick="seciliResmiTemizle()">Resim Sil</button>
+  <button class="btnPdf" onclick="window.print()">PDF</button>
+  <button class="btnTemizle" onclick="tumunuTemizle()">Temizle</button>
 </div>
 
 <div id="afis">
+  <div class="header">
+    <div>
+      <div class="logoSatir">
+        <span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g3">MUT</span>
+      </div>
+      <div class="altBaslik">HAFTANIN YILDIZLARI</div>
+    </div>
 
-<div class="header">
-<div class="logoSatir">
-<span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g3">MUT</span>
-</div>
+    <div class="tarihKutu">
+      <div class="tarihBaslik">GEÇERLİLİK TARİHİ</div>
+      <div class="tarihSatir">
+        <input id="basGun" class="tarihInputKucuk" type="number" value="21">
+        <span class="tarihAyirici">-</span>
+        <input id="bitGun" class="tarihInputKucuk" type="number" value="24">
+      </div>
+      <input id="ayInput" class="tarihInputAy" value="NİSAN">
+    </div>
 
-<div class="tarihKutu">
-<div>GEÇERLİLİK</div>
-<div class="tarihSatir">
-<input id="basGun" type="number" value="21">
--
-<input id="bitGun" type="number" value="24">
-</div>
-<input id="ayInput" value="NİSAN">
-</div>
+    <div class="qr">
+      <img src="IMG_8553.jpeg" alt="QR">
+      <div class="kullanici">@grossmut33</div>
+      <div class="takip">Bizi takip edin</div>
+    </div>
+  </div>
 
-<div class="qr">
-<img src="IMG_8553.jpeg" width="100">
-</div>
-</div>
+  <div class="cizgi"></div>
 
-<div class="grid" id="grid"></div>
+  <div class="grid" id="grid"></div>
 
+  <div class="footer">
+    <div>Fiyatlar stoklarla sınırlıdır. Görseller temsilidir.</div>
+    <div class="site">WWW.GROSSMUT.COM</div>
+  </div>
 </div>
 
 <script>
-let urunler=[],resim="",duzenlenenIndex=null;
+let urunler = [];
+let resim = "";
+let duzenlenenIndex = null;
 
-/* ŞİFRE */
-function giris(){
-if(sifre.value==="7433"){
-login.style.display="none";
-}else alert("Yanlış şifre");
+function giris() {
+  if (document.getElementById("sifre").value === "7433") {
+    document.getElementById("login").style.display = "none";
+  } else {
+    alert("Yanlış şifre");
+  }
 }
 
-/* RESİM */
-resimInput.onchange=e=>{
-let f=e.target.files[0];
-let r=new FileReader();
-r.onload=x=>resim=x.target.result;
-r.readAsDataURL(f);
+resimInput.onchange = e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = x => resim = x.target.result;
+  r.readAsDataURL(f);
 };
 
-/* SADECE SAYI */
-eskiInput.oninput=function(){this.value=this.value.replace(/[^0-9]/g,'')}
-yeniInput.oninput=function(){this.value=this.value.replace(/[^0-9]/g,'')}
-
-/* EKLE */
-function urunEkle(){
-if(duzenlenenIndex!==null){
-urunler[duzenlenenIndex]={ad:urunAdiInput.value,eski:eskiInput.value,yeni:yeniInput.value,resim:resim||urunler[duzenlenenIndex].resim}
-duzenlenenIndex=null;
-}else{
-if(urunler.length>=12)return;
-urunler.push({ad:urunAdiInput.value,eski:eskiInput.value,yeni:yeniInput.value,resim:resim});
-}
-urunAdiInput.value="";eskiInput.value="";yeniInput.value="";resim="";
-ciz();
+function seciliResmiTemizle() {
+  resim = "";
+  resimInput.value = "";
 }
 
-/* SİL */
-function sil(i){urunler.splice(i,1);ciz();}
+eskiInput.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
+yeniInput.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
+basGun.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
+bitGun.oninput = function(){ this.value = this.value.replace(/[^0-9]/g,''); }
 
-/* RESİM SİL */
-function resimSil(i){urunler[i].resim="";ciz();}
+function urunEkle() {
+  const yeniKayit = {
+    ad: urunAdiInput.value,
+    aciklama: aciklamaInput.value,
+    eski: eskiInput.value.replace(/[^0-9]/g,''),
+    yeni: yeniInput.value.replace(/[^0-9]/g,''),
+    resim: resim
+  };
 
-/* DÜZENLE */
-function duzenle(i){
-let u=urunler[i];
-urunAdiInput.value=u.ad;
-eskiInput.value=u.eski;
-yeniInput.value=u.yeni;
-duzenlenenIndex=i;
+  if (duzenlenenIndex !== null) {
+    urunler[duzenlenenIndex] = {
+      ...urunler[duzenlenenIndex],
+      ...yeniKayit,
+      resim: resim || urunler[duzenlenenIndex].resim
+    };
+    duzenlenenIndex = null;
+  } else {
+    if (urunler.length >= 12) return;
+    urunler.push(yeniKayit);
+  }
+
+  urunAdiInput.value = "";
+  aciklamaInput.value = "";
+  eskiInput.value = "";
+  yeniInput.value = "";
+  resimInput.value = "";
+  resim = "";
+
+  ciz();
 }
 
-/* ÇİZ */
-function ciz(){
-let html="";
-for(let i=0;i<12;i++){
-let u=urunler[i]||{};
-html+=`
-<div class="card">
-${u.ad?`<button class="silBtn" onclick="sil(${i})">X</button>`:""}
-${u.resim?`<button class="imgSilBtn" onclick="resimSil(${i})">Resim Sil</button>`:""}
-<div class="imgBox">${u.resim?`<img src="${u.resim}">`:``}</div>
-<div class="urunAdi" onclick="duzenle(${i})">${u.ad||""}</div>
-<div class="eski">${u.eski||""}</div>
-<div class="yeni">${u.yeni||""}</div>
-<div class="indirim">İNDİRİM</div>
-</div>`;
+function sil(i) {
+  urunler.splice(i, 1);
+  if (duzenlenenIndex === i) duzenlenenIndex = null;
+  ciz();
 }
-grid.innerHTML=html;
+
+function resimSil(i) {
+  if (!urunler[i]) return;
+  urunler[i].resim = "";
+  ciz();
+}
+
+function duzenle(i) {
+  const u = urunler[i];
+  if (!u) return;
+  urunAdiInput.value = u.ad || "";
+  aciklamaInput.value = u.aciklama || "";
+  eskiInput.value = u.eski || "";
+  yeniInput.value = u.yeni || "";
+  resim = "";
+  resimInput.value = "";
+  duzenlenenIndex = i;
+}
+
+function tumunuTemizle() {
+  urunler = [];
+  duzenlenenIndex = null;
+  urunAdiInput.value = "";
+  aciklamaInput.value = "";
+  eskiInput.value = "";
+  yeniInput.value = "";
+  resimInput.value = "";
+  resim = "";
+  ciz();
+}
+
+function ciz() {
+  let html = "";
+  for (let i = 0; i < 12; i++) {
+    const u = urunler[i] || {};
+    html += `
+      <div class="card">
+        ${u.ad ? `<button class="silBtn" onclick="sil(${i})">X</button>` : ``}
+        ${u.resim ? `<button class="imgSilBtn" onclick="resimSil(${i})">Resim Sil</button>` : ``}
+        <div class="imgBox">${u.resim ? `<img src="${u.resim}">` : ``}</div>
+        <div class="urunAdi" onclick="duzenle(${i})">${u.ad || ""}</div>
+        <div class="aciklama">${u.aciklama || ""}</div>
+        <div class="eski">${u.eski || ""}</div>
+        <div class="yeni">${u.yeni || ""}</div>
+        <div class="indirim">İNDİRİM</div>
+      </div>`;
+  }
+  grid.innerHTML = html;
 }
 
 ciz();
