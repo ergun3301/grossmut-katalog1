@@ -2,7 +2,6 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grossmut</title>
 
 <style>
@@ -12,159 +11,109 @@ body{margin:0;font-family:Arial;background:#eceff1}
 /* LOGIN */
 #login{
 position:fixed;inset:0;background:#111;color:#fff;
-display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:9999
+display:flex;align-items:center;justify-content:center;flex-direction:column
 }
-#login input{padding:12px;font-size:18px;border-radius:8px;border:none;text-align:center}
-#login button{margin-top:10px;padding:10px 20px;background:green;color:#fff;border:none;border-radius:8px}
+#login input{padding:10px;border:none;border-radius:6px;text-align:center}
+#login button{margin-top:10px;padding:8px 16px;background:green;color:#fff;border:none;border-radius:6px}
 
 /* PANEL */
-.panel{
-background:#fff;padding:10px;display:flex;flex-wrap:wrap;gap:8px
-}
-.panel input{padding:8px;border-radius:6px;border:1px solid #ccc}
-.panel button{padding:8px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
+.panel{background:#fff;padding:10px;display:flex;gap:6px;flex-wrap:wrap}
+.panel input{padding:6px;border:1px solid #ccc;border-radius:6px}
+.panel button{padding:6px 10px;border:none;border-radius:6px;font-weight:bold}
 
 /* A4 */
-#afis{
-width:794px;height:1123px;margin:auto;background:#fff;overflow:hidden
-}
+#afis{width:794px;height:1123px;margin:auto;background:#fff}
 
 /* HEADER */
 .header{
 display:grid;
-grid-template-columns:1.5fr 0.5fr 0.5fr;
+grid-template-columns:1.5fr 0.4fr 0.4fr;
 align-items:center;
-gap:10px;
 padding:10px;
 }
 
 /* LOGO */
-.logoSatir{font-size:70px;font-weight:900;font-style:italic}
+.logo{font-size:68px;font-weight:900;font-style:italic}
 .g1{color:#1ca42f}
 .g2{color:#f5a300}
-.g3{color:#f5a300}
 
 /* BAŞLIK */
 .altBaslik{
-margin-top:6px;
-font-size:24px;
-font-weight:900;
-border:none;
-background:transparent;
-outline:none;
+font-size:22px;font-weight:900;border:none;background:transparent
 }
 
-/* 🔥 TARİH SÜPER KÜÇÜK */
-.tarihKutu{
+/* 🔥 TARİH SÜPER SIKI */
+.tarih{
 background:#49a63a;
 color:#fff;
-border-radius:14px;
-padding:4px 6px;
-width:100px;
-
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
+border-radius:12px;
+padding:4px;
+width:90px;
+text-align:center;
 }
 
-.tarihBaslik{
-font-size:9px;
-font-weight:800;
-margin-bottom:2px;
-}
+.tarih span{font-size:10px;font-weight:bold}
 
 .tarihSatir{
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 gap:1px;
 }
 
-.tarihInputKucuk{
-width:24px;
-height:20px;
+.tarih input{
+width:22px;
+height:18px;
 border:none;
 border-radius:4px;
-background:#fff;
 text-align:center;
-font-weight:900;
-font-size:11px;
-padding:0;
-}
-
-.tarihAyirici{
-font-size:12px;
-font-weight:900;
-}
-
-.tarihInputAy{
-width:60px;
-height:20px;
-margin-top:2px;
-border:none;
-border-radius:4px;
-background:#fff;
-text-align:center;
-font-weight:900;
 font-size:10px;
-padding:0;
+font-weight:bold;
+}
+
+.ay{
+width:50px!important;
+margin-top:2px;
 }
 
 /* QR */
-.qr img{
-width:120px;
-height:120px;
-object-fit:contain;
-}
+.qr img{width:110px;height:110px}
 
 /* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 grid-template-rows:repeat(4,1fr);
-height:860px;
+height:880px;
 }
 
 /* CARD */
 .card{
 border:1px solid #ddd;
-padding:5px;
+padding:4px;
+text-align:center;
 display:flex;
 flex-direction:column;
-position:relative;
-text-align:center;
 }
 
-/* RESİM */
-.imgBox{
-height:90px;
-margin-top:22px;
-}
-.imgBox img{
-width:100%;
-height:100%;
-object-fit:contain;
-}
+.imgBox{height:90px}
+.imgBox img{width:100%;height:100%;object-fit:contain}
 
-/* TEXT */
-.urunAdi{font-size:14px;font-weight:bold}
+.urunAdi{font-size:13px;font-weight:bold}
 .aciklama{font-size:10px;color:#666}
 .eski{color:red;text-decoration:line-through}
-.yeni{color:green;font-size:26px;font-weight:bold}
-.indirim{background:gold;padding:5px;margin-top:auto}
+.yeni{color:green;font-size:24px;font-weight:bold}
+
+.indirim{background:gold;margin-top:auto;padding:4px}
 
 /* PRINT */
-@media print{
-.panel,#login{display:none}
-}
+@media print{.panel,#login{display:none}}
 </style>
 </head>
 
 <body>
 
 <div id="login">
-<h2>Şifre</h2>
 <input type="password" id="sifre">
 <button onclick="giris()">Giriş</button>
 </div>
@@ -175,7 +124,6 @@ object-fit:contain;
 <input id="eskiInput" type="number">
 <input id="yeniInput" type="number">
 <input type="file" id="resimInput">
-
 <button onclick="urunEkle()">Ekle</button>
 <button onclick="kaydet()">Kaydet</button>
 <button onclick="window.print()">PDF</button>
@@ -186,20 +134,19 @@ object-fit:contain;
 <div class="header">
 
 <div>
-<div class="logoSatir">
-<span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g3">MUT</span>
+<div class="logo">
+<span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g2">MUT</span>
 </div>
 <input id="baslikInput" class="altBaslik" value="HAFTANIN YILDIZLARI">
 </div>
 
-<div class="tarihKutu">
-<div class="tarihBaslik">GEÇERLİ</div>
+<div class="tarih">
+<span>GEÇERLİ</span>
 <div class="tarihSatir">
-<input id="basGun" type="number" value="21">
-<span class="tarihAyirici">-</span>
+<input id="basGun" type="number" value="21">-
 <input id="bitGun" type="number" value="24">
 </div>
-<input id="ayInput" value="NİSAN">
+<input id="ayInput" class="ay" value="NİSAN">
 </div>
 
 <div class="qr">
@@ -213,53 +160,43 @@ object-fit:contain;
 </div>
 
 <script>
-const KAYIT="gm_kayit";
-const AYAR="gm_ayar";
-
 let urunler=[],resim="";
 
-/* giriş */
 function giris(){
-if(sifre.value==="7433"){
-login.style.display="none";
-}
+if(sifre.value==="7433") login.style.display="none";
 }
 
-/* kaydet */
 function kaydet(){
-localStorage.setItem(KAYIT,JSON.stringify(urunler));
-localStorage.setItem(AYAR,JSON.stringify({
-baslik:baslikInput.value,
-basGun:basGun.value,
-bitGun:bitGun.value,
-ay:ayInput.value
+localStorage.setItem("urunler",JSON.stringify(urunler));
+localStorage.setItem("baslik",baslikInput.value);
+localStorage.setItem("tarih",JSON.stringify({
+b:basGun.value, s:bitGun.value, a:ayInput.value
 }));
 alert("Kaydedildi");
 }
 
-/* yükle */
 function yukle(){
-let u=localStorage.getItem(KAYIT);
+let u=localStorage.getItem("urunler");
 if(u) urunler=JSON.parse(u);
 
-let a=localStorage.getItem(AYAR);
-if(a){
-a=JSON.parse(a);
-baslikInput.value=a.baslik;
-basGun.value=a.basGun;
-bitGun.value=a.bitGun;
-ayInput.value=a.ay;
+let t=localStorage.getItem("tarih");
+if(t){
+t=JSON.parse(t);
+basGun.value=t.b;bitGun.value=t.s;ayInput.value=t.a;
 }
+baslikInput.value=localStorage.getItem("baslik")||"HAFTANIN YILDIZLARI";
 }
 
-/* resim */
 resimInput.onchange=e=>{
 let r=new FileReader();
 r.onload=x=>resim=x.target.result;
 r.readAsDataURL(e.target.files[0]);
 };
 
-/* ekle */
+eskiInput.oninput=yeniInput.oninput=function(){
+this.value=this.value.replace(/[^0-9]/g,'')
+};
+
 function urunEkle(){
 urunler.push({
 ad:urunAdiInput.value,
@@ -271,7 +208,6 @@ resim:resim
 ciz();
 }
 
-/* çiz */
 function ciz(){
 let html="";
 for(let i=0;i<12;i++){
