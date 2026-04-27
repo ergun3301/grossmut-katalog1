@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grossmut Afiş</title>
+<title>Grossmut</title>
 
 <style>
 *{box-sizing:border-box}
@@ -14,15 +14,13 @@ body{margin:0;font-family:Arial;background:#eceff1}
 position:fixed;inset:0;background:#111;color:#fff;
 display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:9999
 }
-#login input{padding:12px;font-size:18px;border-radius:8px;text-align:center;border:none}
+#login input{padding:12px;font-size:18px;border-radius:8px;border:none;text-align:center}
 #login button{margin-top:10px;padding:10px 20px;background:green;color:#fff;border:none;border-radius:8px}
 
 /* PANEL */
 .panel{
-background:#fff;padding:10px;display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:0
+background:#fff;padding:10px;display:flex;flex-wrap:wrap;gap:8px
 }
-.panel input{padding:8px;border-radius:6px;border:1px solid #ccc}
-.panel button{padding:8px;border:none;border-radius:6px;font-weight:bold}
 
 /* A4 */
 #afis{
@@ -32,12 +30,13 @@ width:794px;height:1123px;margin:auto;background:#fff;overflow:hidden
 /* HEADER */
 .header{
 display:grid;
-grid-template-columns:1.5fr 0.7fr 0.5fr;
+grid-template-columns:1.5fr 0.5fr 0.5fr;
+align-items:center;
 gap:10px;
 padding:10px;
-align-items:center;
 }
 
+/* LOGO */
 .logoSatir{font-size:70px;font-weight:900;font-style:italic}
 .g1{color:#1ca42f}
 .g2{color:#f5a300}
@@ -48,20 +47,18 @@ align-items:center;
 margin-top:6px;
 font-size:24px;
 font-weight:900;
-text-transform:uppercase;
 border:none;
 background:transparent;
 outline:none;
-width:100%;
 }
 
-/* 🔥 TARİH SIKILAŞTIRILDI */
+/* 🔥 TARİH TAM SIKIŞTIRILDI */
 .tarihKutu{
 background:#49a63a;
 color:#fff;
-border-radius:20px;
-padding:8px 10px;
-width:150px;
+border-radius:18px;
+padding:6px 8px;
+width:120px;
 
 display:flex;
 flex-direction:column;
@@ -70,9 +67,9 @@ justify-content:center;
 }
 
 .tarihBaslik{
-font-size:11px;
+font-size:10px;
 font-weight:800;
-margin-bottom:4px;
+margin-bottom:2px;
 }
 
 .tarihSatir{
@@ -83,34 +80,39 @@ gap:2px;
 }
 
 .tarihInputKucuk{
-width:32px;
-height:28px;
+width:28px;
+height:24px;
 border:none;
 border-radius:6px;
 background:#fff;
 text-align:center;
 font-weight:900;
-font-size:14px;
+font-size:13px;
 padding:0;
 }
 
+.tarihAyirici{
+font-size:14px;
+font-weight:900;
+}
+
 .tarihInputAy{
-width:80px;
-height:26px;
-margin-top:4px;
+width:70px;
+height:24px;
+margin-top:3px;
 border:none;
 border-radius:6px;
 background:#fff;
 text-align:center;
 font-weight:900;
-font-size:12px;
+font-size:11px;
 padding:0;
 }
 
 /* QR */
 .qr img{
-width:140px;
-height:140px;
+width:130px;
+height:130px;
 object-fit:contain;
 }
 
@@ -130,11 +132,6 @@ display:flex;
 flex-direction:column;
 position:relative;
 text-align:center;
-}
-
-.silBtn{
-position:absolute;top:5px;right:5px;background:red;color:#fff;
-border:none;border-radius:50%;width:22px;height:22px
 }
 
 /* RESİM */
@@ -158,7 +155,6 @@ object-fit:contain;
 /* PRINT */
 @media print{
 .panel,#login{display:none}
-.silBtn{display:none}
 }
 </style>
 </head>
@@ -169,16 +165,6 @@ object-fit:contain;
 <h2>Şifre</h2>
 <input type="password" id="sifre">
 <button onclick="giris()">Giriş</button>
-</div>
-
-<div class="panel">
-<input id="urunAdiInput" placeholder="Ürün">
-<input id="aciklamaInput" placeholder="Açıklama">
-<input id="eskiInput" type="number">
-<input id="yeniInput" type="number">
-<input type="file" id="resimInput">
-<button onclick="urunEkle()">Ekle</button>
-<button onclick="window.print()">PDF</button>
 </div>
 
 <div id="afis">
@@ -196,7 +182,7 @@ object-fit:contain;
 <div class="tarihBaslik">GEÇERLİLİK</div>
 <div class="tarihSatir">
 <input id="basGun" type="number" value="21">
--
+<span class="tarihAyirici">-</span>
 <input id="bitGun" type="number" value="24">
 </div>
 <input id="ayInput" value="NİSAN">
@@ -213,110 +199,11 @@ object-fit:contain;
 </div>
 
 <script>
-const KAYIT="katalog_final";
-const AYAR="ayar_final";
-
-let urunler=[],resim="",duzenlenenIndex=null;
-
 function giris(){
-if(sifre.value==="7433"){login.style.display="none";}
-}
-
-function kaydet(){
-localStorage.setItem(KAYIT,JSON.stringify(urunler));
-localStorage.setItem(AYAR,JSON.stringify({
-baslik:baslikInput.value,
-basGun:basGun.value,
-bitGun:bitGun.value,
-ay:ayInput.value
-}));
-}
-
-function yukle(){
-let u=localStorage.getItem(KAYIT);
-if(u) urunler=JSON.parse(u)||[];
-
-let a=localStorage.getItem(AYAR);
-if(a){
-a=JSON.parse(a);
-baslikInput.value=a.baslik||"HAFTANIN YILDIZLARI";
-basGun.value=a.basGun||"21";
-bitGun.value=a.bitGun||"24";
-ayInput.value=a.ay||"NİSAN";
+if(document.getElementById("sifre").value==="7433"){
+document.getElementById("login").style.display="none";
 }
 }
-
-resimInput.onchange=e=>{
-let f=e.target.files[0];
-let r=new FileReader();
-r.onload=x=>resim=x.target.result;
-r.readAsDataURL(f);
-};
-
-eskiInput.oninput=yeniInput.oninput=function(){
-this.value=this.value.replace(/[^0-9]/g,'')
-};
-
-baslikInput.oninput=basGun.oninput=bitGun.oninput=ayInput.oninput=()=>kaydet();
-
-function urunEkle(){
-let data={
-ad:urunAdiInput.value,
-aciklama:aciklamaInput.value,
-eski:eskiInput.value,
-yeni:yeniInput.value,
-resim:resim
-};
-
-if(duzenlenenIndex!=null){
-urunler[duzenlenenIndex]=data;
-duzenlenenIndex=null;
-}else{
-if(urunler.length>=12)return;
-urunler.push(data);
-}
-
-urunAdiInput.value="";
-aciklamaInput.value="";
-eskiInput.value="";
-yeniInput.value="";
-resim="";
-
-kaydet();
-ciz();
-}
-
-function sil(i){urunler.splice(i,1);kaydet();ciz();}
-
-function duzenle(i){
-let u=urunler[i];
-urunAdiInput.value=u.ad;
-aciklamaInput.value=u.aciklama;
-eskiInput.value=u.eski;
-yeniInput.value=u.yeni;
-duzenlenenIndex=i;
-}
-
-function ciz(){
-let html="";
-for(let i=0;i<12;i++){
-let u=urunler[i]||{};
-html+=`
-<div class="card">
-${u.ad?`<button class="silBtn" onclick="sil(${i})">X</button>`:""}
-<div class="imgBox">${u.resim?`<img src="${u.resim}">`:``}</div>
-<div class="urunAdi" onclick="duzenle(${i})">${u.ad||""}</div>
-<div class="aciklama">${u.aciklama||""}</div>
-<div class="eski">${u.eski||""}</div>
-<div class="yeni">${u.yeni||""}</div>
-<div class="indirim">İNDİRİM</div>
-</div>`;
-}
-grid.innerHTML=html;
-}
-
-yukle();
-ciz();
 </script>
 
 </body>
