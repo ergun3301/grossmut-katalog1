@@ -21,6 +21,8 @@ display:flex;align-items:center;justify-content:center;flex-direction:column;z-i
 .panel{
 background:#fff;padding:10px;display:flex;flex-wrap:wrap;gap:8px
 }
+.panel input{padding:8px;border-radius:6px;border:1px solid #ccc}
+.panel button{padding:8px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
 
 /* A4 */
 #afis{
@@ -52,13 +54,13 @@ background:transparent;
 outline:none;
 }
 
-/* 🔥 TARİH TAM SIKIŞTIRILDI */
+/* 🔥 TARİH SÜPER KÜÇÜK */
 .tarihKutu{
 background:#49a63a;
 color:#fff;
-border-radius:18px;
-padding:6px 8px;
-width:120px;
+border-radius:14px;
+padding:4px 6px;
+width:100px;
 
 display:flex;
 flex-direction:column;
@@ -67,7 +69,7 @@ justify-content:center;
 }
 
 .tarihBaslik{
-font-size:10px;
+font-size:9px;
 font-weight:800;
 margin-bottom:2px;
 }
@@ -76,32 +78,14 @@ margin-bottom:2px;
 display:flex;
 align-items:center;
 justify-content:center;
-gap:2px;
+gap:1px;
 }
 
 .tarihInputKucuk{
-width:28px;
-height:24px;
+width:24px;
+height:20px;
 border:none;
-border-radius:6px;
-background:#fff;
-text-align:center;
-font-weight:900;
-font-size:13px;
-padding:0;
-}
-
-.tarihAyirici{
-font-size:14px;
-font-weight:900;
-}
-
-.tarihInputAy{
-width:70px;
-height:24px;
-margin-top:3px;
-border:none;
-border-radius:6px;
+border-radius:4px;
 background:#fff;
 text-align:center;
 font-weight:900;
@@ -109,10 +93,28 @@ font-size:11px;
 padding:0;
 }
 
+.tarihAyirici{
+font-size:12px;
+font-weight:900;
+}
+
+.tarihInputAy{
+width:60px;
+height:20px;
+margin-top:2px;
+border:none;
+border-radius:4px;
+background:#fff;
+text-align:center;
+font-weight:900;
+font-size:10px;
+padding:0;
+}
+
 /* QR */
 .qr img{
-width:130px;
-height:130px;
+width:120px;
+height:120px;
 object-fit:contain;
 }
 
@@ -167,6 +169,18 @@ object-fit:contain;
 <button onclick="giris()">Giriş</button>
 </div>
 
+<div class="panel">
+<input id="urunAdiInput" placeholder="Ürün">
+<input id="aciklamaInput" placeholder="Açıklama">
+<input id="eskiInput" type="number">
+<input id="yeniInput" type="number">
+<input type="file" id="resimInput">
+
+<button onclick="urunEkle()">Ekle</button>
+<button onclick="kaydet()">Kaydet</button>
+<button onclick="window.print()">PDF</button>
+</div>
+
 <div id="afis">
 
 <div class="header">
@@ -179,7 +193,7 @@ object-fit:contain;
 </div>
 
 <div class="tarihKutu">
-<div class="tarihBaslik">GEÇERLİLİK</div>
+<div class="tarihBaslik">GEÇERLİ</div>
 <div class="tarihSatir">
 <input id="basGun" type="number" value="21">
 <span class="tarihAyirici">-</span>
@@ -199,11 +213,84 @@ object-fit:contain;
 </div>
 
 <script>
+const KAYIT="gm_kayit";
+const AYAR="gm_ayar";
+
+let urunler=[],resim="";
+
+/* giriş */
 function giris(){
-if(document.getElementById("sifre").value==="7433"){
-document.getElementById("login").style.display="none";
+if(sifre.value==="7433"){
+login.style.display="none";
 }
 }
+
+/* kaydet */
+function kaydet(){
+localStorage.setItem(KAYIT,JSON.stringify(urunler));
+localStorage.setItem(AYAR,JSON.stringify({
+baslik:baslikInput.value,
+basGun:basGun.value,
+bitGun:bitGun.value,
+ay:ayInput.value
+}));
+alert("Kaydedildi");
+}
+
+/* yükle */
+function yukle(){
+let u=localStorage.getItem(KAYIT);
+if(u) urunler=JSON.parse(u);
+
+let a=localStorage.getItem(AYAR);
+if(a){
+a=JSON.parse(a);
+baslikInput.value=a.baslik;
+basGun.value=a.basGun;
+bitGun.value=a.bitGun;
+ayInput.value=a.ay;
+}
+}
+
+/* resim */
+resimInput.onchange=e=>{
+let r=new FileReader();
+r.onload=x=>resim=x.target.result;
+r.readAsDataURL(e.target.files[0]);
+};
+
+/* ekle */
+function urunEkle(){
+urunler.push({
+ad:urunAdiInput.value,
+aciklama:aciklamaInput.value,
+eski:eskiInput.value,
+yeni:yeniInput.value,
+resim:resim
+});
+ciz();
+}
+
+/* çiz */
+function ciz(){
+let html="";
+for(let i=0;i<12;i++){
+let u=urunler[i]||{};
+html+=`
+<div class="card">
+<div class="imgBox">${u.resim?`<img src="${u.resim}">`:``}</div>
+<div class="urunAdi">${u.ad||""}</div>
+<div class="aciklama">${u.aciklama||""}</div>
+<div class="eski">${u.eski||""}</div>
+<div class="yeni">${u.yeni||""}</div>
+<div class="indirim">İNDİRİM</div>
+</div>`;
+}
+grid.innerHTML=html;
+}
+
+yukle();
+ciz();
 </script>
 
 </body>
