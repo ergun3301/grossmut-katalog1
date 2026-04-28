@@ -2,157 +2,157 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Grossmut Katalog</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#eee;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#e9ecef}
 
-/* PANEL */
+#login{
+position:fixed;inset:0;background:#111;color:white;z-index:9999;
+display:flex;flex-direction:column;align-items:center;justify-content:center
+}
+#login input{padding:12px;font-size:18px;text-align:center;border-radius:8px;border:0}
+#login button{margin-top:10px;padding:10px 20px;background:green;color:#fff;border:0;border-radius:8px;font-weight:bold}
+
 .panel{
-background:#fff;
-padding:10px;
-display:flex;
-gap:6px;
-flex-wrap:wrap;
-position:sticky;
-top:0;
-z-index:10;
+background:#fff;padding:10px;display:flex;gap:7px;flex-wrap:wrap;position:sticky;top:0;z-index:20
 }
-.panel input{
-padding:6px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-.panel button{
-padding:6px 10px;
-border:none;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer;
-}
+.panel input,.panel button{padding:8px;border-radius:6px;border:1px solid #ccc}
+.panel button{border:0;font-weight:bold;cursor:pointer}
+.ekle{background:#ff9f00;color:white}
+.kaydet{background:green;color:white}
+.pdf{background:#444;color:white}
+.temizle{background:#b71c1c;color:white}
 
-/* AFİŞ */
 #afis{
-width:794px;
-height:1123px;
-margin:auto;
-background:#fff;
-padding:15px;
+width:794px;height:1123px;margin:10px auto;background:white;overflow:hidden;
+padding:14px;box-shadow:0 5px 18px rgba(0,0,0,.15)
 }
 
-/* ÜST */
 .ust{
-display:flex;
-justify-content:space-between;
-align-items:center;
+height:245px;position:relative;overflow:hidden;
+display:flex;justify-content:space-between;align-items:flex-start
 }
 
-/* LOGO */
 .logo{
-font-size:60px;
-font-weight:900;
-font-style:italic;
+font-size:60px;font-weight:900;font-style:italic;letter-spacing:-3px;line-height:.9
 }
-.g1{color:#1ca42f}
-.g2{color:#ff6a00}
+.g1{color:#006b35}
+.g2{color:#ff5b00}
 
-/* BAŞLIK */
-.buyukBaslik{
-font-size:38px;
-font-weight:900;
-color:#ff6a00;
+.baslik1{
+font-size:36px;font-weight:900;color:#006b35;margin-top:28px;font-style:italic
 }
-.kucukBaslik{
-font-size:22px;
-color:#1ca42f;
-font-weight:bold;
+.baslik2{
+font-size:82px;font-weight:900;color:#ff5b00;line-height:.85
 }
 
-/* TARİH */
+.sepet{
+font-size:100px;margin-right:25px;margin-top:10px
+}
+
 .tarih{
-background:#1ca42f;
-color:#fff;
-padding:8px 12px;
-border-radius:12px;
-font-weight:bold;
-margin-top:10px;
-display:inline-block;
+position:absolute;left:14px;bottom:8px;
+background:#087a35;color:white;border-radius:10px;padding:8px 14px;
+font-size:18px;font-weight:900
+}
+.tarih input{
+background:transparent;color:white;border:0;outline:0;font-size:18px;font-weight:900;width:250px
 }
 
-/* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-top:20px;
+grid-template-rows:repeat(3,1fr);
+gap:8px;
+height:790px;
 }
 
-/* KART */
 .card{
-border:1px solid #ddd;
-border-radius:12px;
-padding:10px;
-text-align:center;
-display:flex;
-flex-direction:column;
+border:1px solid #cfd8dc;border-radius:10px;padding:8px;
+display:flex;flex-direction:column;position:relative;overflow:hidden;background:#fff
 }
 
-.card img{
-height:130px;
+.sil{
+position:absolute;right:5px;top:5px;background:red;color:white;border:0;border-radius:50%;
+width:22px;height:22px;font-size:12px;cursor:pointer;z-index:5
+}
+
+.resimSil{
+position:absolute;left:5px;top:5px;background:#555;color:white;border:0;border-radius:8px;
+font-size:10px;padding:3px 6px;cursor:pointer;z-index:5
+}
+
+.ad{
+font-size:18px;font-weight:900;text-transform:uppercase;min-height:42px;line-height:1.05;cursor:pointer
+}
+.aciklama{
+font-size:13px;font-weight:bold;color:#111;text-transform:uppercase;min-height:22px
+}
+
+.imgBox{
+height:135px;display:flex;align-items:center;justify-content:center;margin:4px 0
+}
+.imgBox img{
+max-width:100%;
+max-height:100%;
+width:auto;
+height:auto;
 object-fit:contain;
+display:block;
 }
 
-.ad{font-weight:bold}
-.aciklama{font-size:12px;color:#666}
+.fiyatlar{margin-top:auto}
+.eski{font-size:16px;text-decoration:line-through;color:#111;font-weight:bold}
+.yeni{font-size:36px;color:#007a3d;font-weight:900;line-height:1}
+.tl{font-size:18px;color:#ff5b00;font-weight:900}
 
-.eski{
-text-decoration:line-through;
-color:red;
+.promo{
+background:#e9f7e9;border-radius:10px;border:1px solid #cfd8dc;
+display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+font-weight:900;color:#006b35
 }
+.promo .p1{font-size:20px}
+.promo .p2{font-size:36px;color:#ff5b00}
+.promo .p3{font-size:34px}
 
-.yeni{
-font-size:26px;
-color:#1ca42f;
-font-weight:900;
-}
-
-.tl{color:#ff6a00;font-weight:bold}
-
-/* ALT */
 .alt{
-margin-top:20px;
-background:#1ca42f;
-color:#fff;
-padding:10px;
-display:flex;
-justify-content:space-around;
-font-size:12px;
+height:55px;background:#006b35;color:white;margin:10px -14px -14px;
+display:flex;align-items:center;justify-content:space-around;font-size:15px;font-weight:bold
 }
 
-/* PRINT */
+.pdfMod .panel,.pdfMod .sil,.pdfMod .resimSil{display:none!important}
+
 @media print{
-.panel{display:none}
+.panel,#login,.sil,.resimSil{display:none!important}
+#afis{margin:0;box-shadow:none}
+@page{size:A4;margin:0}
 }
 </style>
 </head>
 
 <body>
 
-<div class="panel">
-<input id="ad" placeholder="Ürün">
-<input id="aciklama" placeholder="Açıklama">
-<input id="eski" type="number">
-<input id="yeni" type="number">
-<input type="file" id="resim">
+<div id="login">
+<h2>Şifre</h2>
+<input id="sifre" type="password" placeholder="7433">
+<button onclick="giris()">Giriş</button>
+</div>
 
-<button onclick="ekle()">Ekle</button>
-<button onclick="pdf()">PDF</button>
+<div class="panel">
+<input id="adInput" placeholder="Ürün adı">
+<input id="aciklamaInput" placeholder="Açıklama / gramaj">
+<input id="eskiInput" type="number" inputmode="numeric" placeholder="Eski fiyat">
+<input id="yeniInput" type="number" inputmode="numeric" placeholder="Yeni fiyat">
+<input id="resimInput" type="file" accept="image/*">
+<button class="ekle" onclick="urunEkle()">Ekle / Güncelle</button>
+<button class="kaydet" onclick="kaydet()">Kaydet</button>
+<button class="pdf" onclick="pdfOlustur()">PDF</button>
+<button class="temizle" onclick="temizle()">Temizle</button>
 </div>
 
 <div id="afis">
@@ -160,67 +160,221 @@ font-size:12px;
 <div class="ust">
 <div>
 <div class="logo">
-<span class="g1">GRO</span><span class="g2">SS MUT</span>
+<span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g2">Mut</span>
+</div>
+<div class="baslik1">HAFTA İÇİNE ÖZEL</div>
+<div class="baslik2">İNDİRİM</div>
 </div>
 
-<div class="kucukBaslik">HAFTA İÇİNE ÖZEL</div>
-<div class="buyukBaslik">İNDİRİM</div>
+<div class="sepet">🛒</div>
 
-<div class="tarih" contenteditable="true">
-27 Nisan - 30 Nisan
-</div>
+<div class="tarih">
+📅 <input id="tarihInput" value="27 Nisan - 30 Nisan">
 </div>
 </div>
 
 <div class="grid" id="grid"></div>
 
 <div class="alt">
-<div>Grossmut</div>
-<div>Kaliteli Ürün</div>
-<div>Stoklarla Sınırlıdır</div>
+<div>📍 GROSSMUT</div>
+<div>✅ Kaliteli Ürün Uygun Fiyat</div>
+<div>🛒 Stoklarla Sınırlıdır</div>
 </div>
 
 </div>
 
 <script>
-let urunler=[];
+const KAYIT="grossmut_profesyonel_katalog_v1";
+const AYAR="grossmut_profesyonel_ayar_v1";
 
-resim.onchange=e=>{
-let r=new FileReader();
-r.onload=x=>resim.data=x.target.result;
-r.readAsDataURL(e.target.files[0]);
+let urunler=[];
+let secilenResim="";
+let duzenlenenIndex=null;
+
+function giris(){
+if(sifre.value==="7433"){login.style.display="none"}
+else alert("Yanlış şifre");
 }
 
-function ekle(){
-urunler.push({
-ad:ad.value,
-aciklama:aciklama.value,
-eski:eski.value,
-yeni:yeni.value,
-resim:resim.data
-});
+function resmiKucult(file,callback){
+const reader=new FileReader();
+reader.onload=e=>{
+const img=new Image();
+img.onload=()=>{
+const canvas=document.createElement("canvas");
+const max=900;
+let w=img.width,h=img.height;
+if(w>h && w>max){h*=max/w;w=max}
+if(h>w && h>max){w*=max/h;h=max}
+canvas.width=w;canvas.height=h;
+const ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0,w,h);
+callback(canvas.toDataURL("image/jpeg",0.85));
+};
+img.src=e.target.result;
+};
+reader.readAsDataURL(file);
+}
+
+resimInput.onchange=e=>{
+const file=e.target.files[0];
+if(!file)return;
+resmiKucult(file,data=>{secilenResim=data});
+};
+
+eskiInput.oninput=yeniInput.oninput=function(){
+this.value=this.value.replace(/[^0-9]/g,"");
+};
+
+tarihInput.oninput=function(){kaydetSessiz()};
+
+function urunEkle(){
+const data={
+ad:adInput.value,
+aciklama:aciklamaInput.value,
+eski:eskiInput.value.replace(/[^0-9]/g,""),
+yeni:yeniInput.value.replace(/[^0-9]/g,""),
+resim:secilenResim
+};
+
+if(duzenlenenIndex!==null){
+urunler[duzenlenenIndex]={
+...urunler[duzenlenenIndex],
+...data,
+resim:secilenResim || urunler[duzenlenenIndex].resim
+};
+duzenlenenIndex=null;
+}else{
+if(urunler.length>=8){alert("Bu tasarımda en fazla 8 ürün + 1 reklam kutusu var.");return;}
+urunler.push(data);
+}
+
+adInput.value="";
+aciklamaInput.value="";
+eskiInput.value="";
+yeniInput.value="";
+resimInput.value="";
+secilenResim="";
+
+kaydetSessiz();
 ciz();
 }
 
 function ciz(){
 let html="";
-urunler.forEach(u=>{
+for(let i=0;i<8;i++){
+const u=urunler[i]||{};
 html+=`
 <div class="card">
-<img src="${u.resim||''}">
-<div class="ad">${u.ad}</div>
-<div class="aciklama">${u.aciklama}</div>
-<div class="eski">${u.eski} TL</div>
-<div class="yeni">${u.yeni} <span class="tl">TL</span></div>
+${u.ad?`<button class="sil" onclick="sil(${i})">X</button>`:""}
+${u.resim?`<button class="resimSil" onclick="resimSil(${i})">Resim Sil</button>`:""}
+<div class="ad" onclick="duzenle(${i})">${u.ad||""}</div>
+<div class="aciklama">${u.aciklama||""}</div>
+<div class="imgBox">${u.resim?`<img src="${u.resim}">`:""}</div>
+<div class="fiyatlar">
+<div class="eski">${u.eski?u.eski+",00 TL":""}</div>
+<div class="yeni">${u.yeni||""} ${u.yeni?`<span class="tl">TL</span>`:""}</div>
 </div>
-`;
-});
+</div>`;
+}
+
+html+=`
+<div class="promo">
+<div class="p1">GROSSMUT'TA</div>
+<div class="p2">İNDİRİM</div>
+<div class="p3">DOLU GÜNLER!</div>
+<br>
+<div>STOKLARLA SINIRLIDIR</div>
+</div>`;
+
 grid.innerHTML=html;
 }
 
-function pdf(){
-html2pdf().from(document.getElementById("afis")).save();
+function duzenle(i){
+const u=urunler[i];
+if(!u)return;
+adInput.value=u.ad||"";
+aciklamaInput.value=u.aciklama||"";
+eskiInput.value=u.eski||"";
+yeniInput.value=u.yeni||"";
+secilenResim="";
+resimInput.value="";
+duzenlenenIndex=i;
 }
+
+function sil(i){
+urunler.splice(i,1);
+kaydetSessiz();
+ciz();
+}
+
+function resimSil(i){
+urunler[i].resim="";
+kaydetSessiz();
+ciz();
+}
+
+function kaydet(){
+kaydetSessiz();
+alert("Kaydedildi");
+}
+
+function kaydetSessiz(){
+localStorage.setItem(KAYIT,JSON.stringify(urunler));
+localStorage.setItem(AYAR,JSON.stringify({tarih:tarihInput.value}));
+}
+
+function yukle(){
+const u=localStorage.getItem(KAYIT);
+if(u)urunler=JSON.parse(u)||[];
+
+const a=localStorage.getItem(AYAR);
+if(a){
+const ayar=JSON.parse(a);
+tarihInput.value=ayar.tarih||"27 Nisan - 30 Nisan";
+}
+}
+
+function temizle(){
+if(!confirm("Tüm ürünler silinsin mi?"))return;
+urunler=[];
+localStorage.removeItem(KAYIT);
+ciz();
+}
+
+function pdfOlustur(){
+const element=document.getElementById("afis");
+document.body.classList.add("pdfMod");
+
+const opt={
+margin:0,
+filename:"Grossmut-Katalog.pdf",
+image:{type:"jpeg",quality:1},
+html2canvas:{
+scale:2,
+useCORS:true,
+scrollX:0,
+scrollY:0,
+width:794,
+height:1123,
+windowWidth:794,
+windowHeight:1123
+},
+jsPDF:{
+unit:"px",
+format:[794,1123],
+orientation:"portrait"
+},
+pagebreak:{mode:["avoid-all"]}
+};
+
+html2pdf().set(opt).from(element).save().then(()=>{
+document.body.classList.remove("pdfMod");
+});
+}
+
+yukle();
+ciz();
 </script>
 
 </body>
