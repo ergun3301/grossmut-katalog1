@@ -1,1 +1,227 @@
-https://www.instagram.com/dondu0733?igsh=ODMzZjk4ZWExZHk4
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Grossmut Katalog</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#eee;
+}
+
+/* PANEL */
+.panel{
+background:#fff;
+padding:10px;
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+position:sticky;
+top:0;
+z-index:10;
+}
+.panel input{
+padding:6px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+.panel button{
+padding:6px 10px;
+border:none;
+border-radius:6px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* AFİŞ */
+#afis{
+width:794px;
+height:1123px;
+margin:auto;
+background:#fff;
+padding:15px;
+}
+
+/* ÜST */
+.ust{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+/* LOGO */
+.logo{
+font-size:60px;
+font-weight:900;
+font-style:italic;
+}
+.g1{color:#1ca42f}
+.g2{color:#ff6a00}
+
+/* BAŞLIK */
+.buyukBaslik{
+font-size:38px;
+font-weight:900;
+color:#ff6a00;
+}
+.kucukBaslik{
+font-size:22px;
+color:#1ca42f;
+font-weight:bold;
+}
+
+/* TARİH */
+.tarih{
+background:#1ca42f;
+color:#fff;
+padding:8px 12px;
+border-radius:12px;
+font-weight:bold;
+margin-top:10px;
+display:inline-block;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:20px;
+}
+
+/* KART */
+.card{
+border:1px solid #ddd;
+border-radius:12px;
+padding:10px;
+text-align:center;
+display:flex;
+flex-direction:column;
+}
+
+.card img{
+height:130px;
+object-fit:contain;
+}
+
+.ad{font-weight:bold}
+.aciklama{font-size:12px;color:#666}
+
+.eski{
+text-decoration:line-through;
+color:red;
+}
+
+.yeni{
+font-size:26px;
+color:#1ca42f;
+font-weight:900;
+}
+
+.tl{color:#ff6a00;font-weight:bold}
+
+/* ALT */
+.alt{
+margin-top:20px;
+background:#1ca42f;
+color:#fff;
+padding:10px;
+display:flex;
+justify-content:space-around;
+font-size:12px;
+}
+
+/* PRINT */
+@media print{
+.panel{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+<input id="ad" placeholder="Ürün">
+<input id="aciklama" placeholder="Açıklama">
+<input id="eski" type="number">
+<input id="yeni" type="number">
+<input type="file" id="resim">
+
+<button onclick="ekle()">Ekle</button>
+<button onclick="pdf()">PDF</button>
+</div>
+
+<div id="afis">
+
+<div class="ust">
+<div>
+<div class="logo">
+<span class="g1">GRO</span><span class="g2">SS MUT</span>
+</div>
+
+<div class="kucukBaslik">HAFTA İÇİNE ÖZEL</div>
+<div class="buyukBaslik">İNDİRİM</div>
+
+<div class="tarih" contenteditable="true">
+27 Nisan - 30 Nisan
+</div>
+</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="alt">
+<div>Grossmut</div>
+<div>Kaliteli Ürün</div>
+<div>Stoklarla Sınırlıdır</div>
+</div>
+
+</div>
+
+<script>
+let urunler=[];
+
+resim.onchange=e=>{
+let r=new FileReader();
+r.onload=x=>resim.data=x.target.result;
+r.readAsDataURL(e.target.files[0]);
+}
+
+function ekle(){
+urunler.push({
+ad:ad.value,
+aciklama:aciklama.value,
+eski:eski.value,
+yeni:yeni.value,
+resim:resim.data
+});
+ciz();
+}
+
+function ciz(){
+let html="";
+urunler.forEach(u=>{
+html+=`
+<div class="card">
+<img src="${u.resim||''}">
+<div class="ad">${u.ad}</div>
+<div class="aciklama">${u.aciklama}</div>
+<div class="eski">${u.eski} TL</div>
+<div class="yeni">${u.yeni} <span class="tl">TL</span></div>
+</div>
+`;
+});
+grid.innerHTML=html;
+}
+
+function pdf(){
+html2pdf().from(document.getElementById("afis")).save();
+}
+</script>
+
+</body>
+</html>
