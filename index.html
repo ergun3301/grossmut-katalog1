@@ -3,376 +3,177 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grossmut Kurumsal Katalog</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+<title>Grossmut PRO</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#e9ecef;color:#111}
+body{margin:0;font-family:'Poppins',sans-serif;background:#eee}
 
-#login{
-position:fixed;inset:0;background:#111;color:#fff;z-index:9999;
-display:flex;flex-direction:column;align-items:center;justify-content:center
-}
-#login input{padding:12px;font-size:18px;border:0;border-radius:8px;text-align:center}
-#login button{margin-top:10px;padding:10px 20px;background:#0b7d2b;color:#fff;border:0;border-radius:8px;font-weight:bold}
+/* PANEL */
+.panel{background:#fff;padding:10px;display:flex;gap:6px;flex-wrap:wrap}
+.panel input,.panel select{padding:6px;border-radius:6px;border:1px solid #ccc}
+.panel button{padding:6px 10px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
+.ekle{background:#ff7a00;color:#fff}
+.pdf{background:#222;color:#fff}
 
-.panel{
-background:#fff;padding:10px;display:flex;gap:7px;flex-wrap:wrap;position:sticky;top:0;z-index:30;
-box-shadow:0 2px 10px rgba(0,0,0,.08)
-}
-.panel input,.panel select,.panel button{padding:8px;border-radius:7px;border:1px solid #ccc}
-.panel button{border:0;font-weight:bold;cursor:pointer}
-.ekle{background:#ff8c00;color:#fff}
-.kaydet{background:#0b7d2b;color:#fff}
-.pdf{background:#333;color:#fff}
-.temizle{background:#b71c1c;color:#fff}
+/* AFİŞ */
+#afis{width:794px;height:1123px;margin:auto;background:#fff;padding:15px}
 
-#afis{
-width:794px;height:1123px;margin:10px auto;background:#fff;overflow:hidden;
-box-shadow:0 5px 18px rgba(0,0,0,.18)
-}
-
-.ust{
-height:255px;padding:18px;position:relative;
-background:linear-gradient(135deg,#fff 0%,#f7fff8 55%,#e3f6e6 100%);
-border-bottom:6px solid #0b7d2b
-}
-.logo{
-font-size:62px;font-weight:900;font-style:italic;letter-spacing:-3px;line-height:.9
-}
+/* LOGO */
+.logo{font-family:'Montserrat';font-size:64px;font-weight:900;font-style:italic}
 .g1{color:#0b7d2b}
 .g2{color:#ff5b00}
-.baslik1{margin-top:28px;font-size:34px;color:#0b7d2b;font-weight:900;font-style:italic}
-.baslik2{font-size:82px;color:#ff5b00;font-weight:900;line-height:.85}
-.tarih{
-position:absolute;left:18px;bottom:14px;background:#0b7d2b;color:#fff;border-radius:9px;padding:8px 14px
-}
-.tarih input{
-background:transparent;border:0;outline:0;color:#fff;font-size:18px;font-weight:900;width:250px;text-align:center
-}
-.sepet{
-position:absolute;right:24px;top:22px;font-size:118px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.15))
-}
-.qr{
-position:absolute;right:22px;bottom:14px;text-align:center;background:white;border-radius:12px;padding:6px;
-box-shadow:0 0 8px rgba(0,0,0,.12)
-}
-.qr img{width:86px;height:86px;object-fit:contain}
-.qr div{font-size:12px;font-weight:900}
 
-.grid{
-height:810px;padding:10px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px
-}
+/* BAŞLIK */
+.baslik1{font-family:'Montserrat';font-size:34px;font-weight:900;color:#0b7d2b;border:none;width:100%}
+.baslik2{font-family:'Montserrat';font-size:80px;font-weight:900;color:#ff5b00;border:none;width:100%}
+
+/* TARİH */
+.tarih{background:#0b7d2b;color:#fff;padding:8px;border-radius:10px;display:inline-block}
+.tarih input{background:transparent;border:none;color:#fff;font-weight:bold}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+
+/* KART */
 .card{
-border:1px solid #d0d7de;border-radius:12px;background:#fff;overflow:hidden;
-display:flex;flex-direction:column;position:relative;padding:8px
+border:1px solid #ddd;
+border-radius:12px;
+padding:10px;
+position:relative;
+text-align:center;
+display:flex;
+flex-direction:column;
 }
+
+/* ROZET */
 .rozet{
-position:absolute;top:6px;right:6px;background:#d71920;color:#fff;border-radius:20px;
-padding:4px 8px;font-size:11px;font-weight:900;z-index:2
-}
-.sil{
-position:absolute;top:6px;left:6px;background:#111;color:#fff;border:0;border-radius:50%;
-width:22px;height:22px;font-size:12px;z-index:4
-}
-.resimSil{
-position:absolute;top:32px;left:6px;background:#666;color:#fff;border:0;border-radius:8px;
-font-size:10px;padding:3px 6px;z-index:4
-}
-.ad{font-size:18px;font-weight:900;min-height:40px;line-height:1.05;text-transform:uppercase;cursor:pointer;margin-top:18px}
-.aciklama{font-size:12px;font-weight:bold;color:#555;min-height:22px;text-transform:uppercase}
-.imgBox{height:120px;display:flex;align-items:center;justify-content:center;margin:4px 0}
-.imgBox img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
-.fiyatAlan{margin-top:auto;border-top:1px solid #eee;padding-top:5px}
-.eski{font-size:15px;text-decoration:line-through;color:#333;font-weight:bold;min-height:18px}
-.yeni{font-size:42px;font-weight:900;color:#0b7d2b;line-height:.95}
-.tl{font-size:18px;color:#ff5b00;font-weight:900}
-.indirimYuzde{font-size:12px;color:#d71920;font-weight:900;min-height:16px}
-
-.promo{
-border-radius:12px;background:linear-gradient(135deg,#0b7d2b,#0a5c22);color:#fff;
-display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px
-}
-.promo .p1{font-size:20px;font-weight:900}
-.promo .p2{font-size:42px;font-weight:900;color:#ffd400}
-.promo .p3{font-size:30px;font-weight:900}
-.promo .p4{font-size:13px;margin-top:12px}
-
-.alt{
-height:58px;background:#0b7d2b;color:#fff;display:flex;align-items:center;justify-content:space-around;
-font-size:14px;font-weight:900
+position:absolute;
+top:8px;
+right:8px;
+background:red;
+color:#fff;
+padding:4px 8px;
+border-radius:12px;
+font-size:11px;
+font-weight:bold;
 }
 
-.pdfMod .panel,.pdfMod .sil,.pdfMod .resimSil{display:none!important}
-
-@media print{
-.panel,#login,.sil,.resimSil{display:none!important}
-#afis{margin:0;box-shadow:none}
-@page{size:A4;margin:0}
+/* RESİM */
+.card img{
+height:130px;
+object-fit:contain;
 }
+
+/* YAZI */
+.ad{font-weight:900}
+.aciklama{font-size:12px;color:#666}
+
+/* FİYAT */
+.eski{text-decoration:line-through;color:#444}
+.yeni{font-size:32px;color:#0b7d2b;font-weight:900}
+.tl{color:#ff5b00;font-size:16px}
+
+/* YÜZDE */
+.yuzde{color:red;font-weight:bold;font-size:12px}
+
+/* ALT */
+.alt{margin-top:20px;background:#0b7d2b;color:#fff;padding:10px;text-align:center}
+
+/* PRINT */
+@media print{.panel{display:none}}
 </style>
 </head>
 
 <body>
 
-<div id="login">
-<h2>Şifre</h2>
-<input id="sifre" type="password" placeholder="7433">
-<button onclick="giris()">Giriş</button>
-</div>
-
 <div class="panel">
-<input id="adInput" placeholder="Ürün adı">
-<input id="aciklamaInput" placeholder="Gramaj / açıklama">
-<input id="eskiInput" type="number" inputmode="numeric" placeholder="Eski fiyat">
-<input id="yeniInput" type="number" inputmode="numeric" placeholder="Yeni fiyat">
-<select id="rozetInput">
-<option value="FIRSAT">FIRSAT</option>
-<option value="İNDİRİM">İNDİRİM</option>
-<option value="ŞOK FİYAT">ŞOK FİYAT</option>
-<option value="EN ÇOK SATAN">EN ÇOK SATAN</option>
+<input id="ad" placeholder="Ürün">
+<input id="aciklama" placeholder="Açıklama">
+<input id="eski" type="number">
+<input id="yeni" type="number">
+
+<select id="rozet">
+<option>FIRSAT</option>
+<option>ŞOK FİYAT</option>
+<option>EN ÇOK SATAN</option>
 </select>
-<input id="resimInput" type="file" accept="image/*">
-<button class="ekle" onclick="urunEkle()">Ekle / Güncelle</button>
-<button class="kaydet" onclick="kaydet()">Kaydet</button>
-<button class="pdf" onclick="pdfOlustur()">PDF Aç</button>
-<button class="temizle" onclick="temizle()">Temizle</button>
+
+<input type="file" id="resim">
+
+<button class="ekle" onclick="ekle()">Ekle</button>
+<button class="pdf" onclick="pdf()">PDF</button>
 </div>
 
 <div id="afis">
-  <div class="ust">
-    <div class="logo">
-      <span class="g1">GRO</span><span class="g2">S</span><span class="g1">S</span><span class="g2">Mut</span>
-    </div>
 
-    <div class="baslik1">HAFTA İÇİNE ÖZEL</div>
-    <div class="baslik2">İNDİRİM</div>
+<div class="logo">
+<span class="g1">GRO</span><span class="g2">SS MUT</span>
+</div>
 
-    <div class="sepet">🛒</div>
+<input class="baslik1" value="HAFTA İÇİNE ÖZEL">
+<input class="baslik2" value="İNDİRİM">
 
-    <div class="tarih">
-      <input id="tarihInput" value="27 Nisan - 30 Nisan">
-    </div>
+<div class="tarih">
+<input value="27 Nisan - 30 Nisan">
+</div>
 
-    <div class="qr">
-      <img src="IMG_8553.jpeg">
-      <div>@grossmut33</div>
-    </div>
-  </div>
+<div class="grid" id="grid"></div>
 
-  <div class="grid" id="grid"></div>
+<div class="alt">GROSSMUT - STOKLARLA SINIRLIDIR</div>
 
-  <div class="alt">
-    <div>📍 GROSSMUT</div>
-    <div>✅ Kaliteli Ürün, Uygun Fiyat</div>
-    <div>🛒 Stoklarla Sınırlıdır</div>
-  </div>
 </div>
 
 <script>
-const KAYIT="grossmut_kurumsal_v2";
-const AYAR="grossmut_kurumsal_ayar_v2";
-
 let urunler=[];
-let secilenResim="";
-let duzenlenenIndex=null;
 
-function giris(){
-  if(sifre.value==="7433") login.style.display="none";
-  else alert("Yanlış şifre");
-}
-
-function resmiKucult(file,callback){
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const img=new Image();
-    img.onload=()=>{
-      const canvas=document.createElement("canvas");
-      const max=900;
-      let w=img.width,h=img.height;
-      if(w>h && w>max){h=h*max/w;w=max}
-      if(h>w && h>max){w=w*max/h;h=max}
-      canvas.width=w;canvas.height=h;
-      const ctx=canvas.getContext("2d");
-      ctx.drawImage(img,0,0,w,h);
-      callback(canvas.toDataURL("image/jpeg",0.86));
-    };
-    img.src=e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-resimInput.onchange=e=>{
-  const file=e.target.files[0];
-  if(!file)return;
-  resmiKucult(file,data=>secilenResim=data);
+resim.onchange=e=>{
+let r=new FileReader();
+r.onload=x=>resim.data=x.target.result;
+r.readAsDataURL(e.target.files[0]);
 };
 
-eskiInput.oninput=yeniInput.oninput=function(){
-  this.value=this.value.replace(/[^0-9]/g,"");
-};
-
-tarihInput.oninput=function(){kaydetSessiz()};
-
-function indirimHesapla(eski,yeni){
-  eski=parseInt(eski||0); yeni=parseInt(yeni||0);
-  if(!eski || !yeni || yeni>=eski) return "";
-  return "%"+Math.round((eski-yeni)*100/eski)+" İNDİRİM";
+function indirim(eski,yeni){
+if(!eski||!yeni)return "";
+return "%"+Math.round((eski-yeni)*100/eski);
 }
 
-function urunEkle(){
-  const data={
-    ad:adInput.value,
-    aciklama:aciklamaInput.value,
-    eski:eskiInput.value.replace(/[^0-9]/g,""),
-    yeni:yeniInput.value.replace(/[^0-9]/g,""),
-    rozet:rozetInput.value,
-    resim:secilenResim
-  };
-
-  if(duzenlenenIndex!==null){
-    urunler[duzenlenenIndex]={
-      ...urunler[duzenlenenIndex],
-      ...data,
-      resim:secilenResim || urunler[duzenlenenIndex].resim
-    };
-    duzenlenenIndex=null;
-  }else{
-    if(urunler.length>=8){alert("Bu profesyonel tasarımda 8 ürün + 1 kampanya kutusu var.");return;}
-    urunler.push(data);
-  }
-
-  adInput.value="";
-  aciklamaInput.value="";
-  eskiInput.value="";
-  yeniInput.value="";
-  resimInput.value="";
-  secilenResim="";
-
-  kaydetSessiz();
-  ciz();
+function ekle(){
+urunler.push({
+ad:ad.value,
+aciklama:aciklama.value,
+eski:eski.value,
+yeni:yeni.value,
+rozet:rozet.value,
+resim:resim.data
+});
+ciz();
 }
 
 function ciz(){
-  let html="";
-  for(let i=0;i<8;i++){
-    const u=urunler[i]||{};
-    html+=`
-    <div class="card">
-      ${u.ad?`<button class="sil" onclick="sil(${i})">X</button>`:""}
-      ${u.resim?`<button class="resimSil" onclick="resimSil(${i})">Resim Sil</button>`:""}
-      ${u.ad?`<div class="rozet">${u.rozet||"FIRSAT"}</div>`:""}
-      <div class="ad" onclick="duzenle(${i})">${u.ad||""}</div>
-      <div class="aciklama">${u.aciklama||""}</div>
-      <div class="imgBox">${u.resim?`<img src="${u.resim}">`:""}</div>
-      <div class="fiyatAlan">
-        <div class="eski">${u.eski?u.eski+",00 TL":""}</div>
-        <div class="indirimYuzde">${indirimHesapla(u.eski,u.yeni)}</div>
-        <div class="yeni">${u.yeni||""} ${u.yeni?`<span class="tl">TL</span>`:""}</div>
-      </div>
-    </div>`;
-  }
-
-  html+=`
-  <div class="promo">
-    <div class="p1">GROSSMUT'TA</div>
-    <div class="p2">FIRSAT</div>
-    <div class="p3">DOLU GÜNLER</div>
-    <div class="p4">Güncel kampanyalar için bizi takip edin</div>
-  </div>`;
-
-  grid.innerHTML=html;
+let html="";
+urunler.forEach(u=>{
+html+=`
+<div class="card">
+<div class="rozet">${u.rozet}</div>
+<img src="${u.resim||''}">
+<div class="ad">${u.ad}</div>
+<div class="aciklama">${u.aciklama}</div>
+<div class="eski">${u.eski} TL</div>
+<div class="yuzde">${indirim(u.eski,u.yeni)}</div>
+<div class="yeni">${u.yeni} <span class="tl">TL</span></div>
+</div>
+`;
+});
+grid.innerHTML=html;
 }
 
-function duzenle(i){
-  const u=urunler[i];
-  if(!u)return;
-  adInput.value=u.ad||"";
-  aciklamaInput.value=u.aciklama||"";
-  eskiInput.value=u.eski||"";
-  yeniInput.value=u.yeni||"";
-  rozetInput.value=u.rozet||"FIRSAT";
-  secilenResim="";
-  resimInput.value="";
-  duzenlenenIndex=i;
+function pdf(){
+html2pdf().from(document.getElementById("afis")).save("Grossmut.pdf");
 }
-
-function sil(i){
-  urunler.splice(i,1);
-  kaydetSessiz();
-  ciz();
-}
-
-function resimSil(i){
-  urunler[i].resim="";
-  kaydetSessiz();
-  ciz();
-}
-
-function kaydet(){
-  kaydetSessiz();
-  alert("Kaydedildi");
-}
-
-function kaydetSessiz(){
-  localStorage.setItem(KAYIT,JSON.stringify(urunler));
-  localStorage.setItem(AYAR,JSON.stringify({tarih:tarihInput.value}));
-}
-
-function yukle(){
-  const u=localStorage.getItem(KAYIT);
-  if(u) urunler=JSON.parse(u)||[];
-
-  const a=localStorage.getItem(AYAR);
-  if(a){
-    const ayar=JSON.parse(a);
-    tarihInput.value=ayar.tarih||"27 Nisan - 30 Nisan";
-  }
-}
-
-function temizle(){
-  if(!confirm("Tüm ürünler silinsin mi?"))return;
-  urunler=[];
-  localStorage.removeItem(KAYIT);
-  ciz();
-}
-
-function pdfOlustur(){
-  const element=document.getElementById("afis");
-  document.body.classList.add("pdfMod");
-
-  const opt={
-    margin:0,
-    image:{type:"jpeg",quality:1},
-    html2canvas:{
-      scale:2,
-      useCORS:true,
-      backgroundColor:"#ffffff",
-      scrollX:0,
-      scrollY:0,
-      width:794,
-      height:1123,
-      windowWidth:794,
-      windowHeight:1123
-    },
-    jsPDF:{
-      unit:"px",
-      format:[794,1123],
-      orientation:"portrait"
-    },
-    pagebreak:{mode:["avoid-all"]}
-  };
-
-  html2pdf().set(opt).from(element).outputPdf("bloburl").then(url=>{
-    document.body.classList.remove("pdfMod");
-    window.open(url,"_blank");
-  });
-}
-
-yukle();
-ciz();
 </script>
 
 </body>
